@@ -1,0 +1,82 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #19344d;
+    background-color: #f2c849;
+  }
+  
+  header {
+    background-color: #d55e00;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  nav ul li {
+    margin-right: 20px;
+  }
+  
+  nav ul li:last-child {
+    margin-right: 0;
+  }
+  
+  nav ul li a {
+    color: #0469ce;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav ul li a:hover {
+    color: #19344d;
+  }
+  
+  h1 {
+    color: #0469ce;
+  }
+  
+  p {
+    color: #19344d;
+  }
+  
+  button {
+    background-color: #19344d;
+    color: #f2c849;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+  }
+  
+header img {
+    width: 50px;
+    height: auto;
+  }
+  
+  button:hover {
+    background-color: #0469ce;
+  }
+  
+  select {
+    background-color: #0469ce;
+    color: #f2c849;
+    padding: 8px;
+    border: none;
+  }
+  
+  select option {
+    background-color: #d55e00;
+  }
+  
