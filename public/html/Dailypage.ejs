@@ -26,24 +26,49 @@
         </ul>
       </nav>
     </header>
-    <h1>Sales</h1>
-    <p>Here you can track your sales and revenue.</p>
-    <!-- Add sales-related content and functionality here -->
-    <button>Add New</button>
 
-    <h1>Expenses</h1>
-    <p>Record your business expenses using the dropdown options:</p>
-    <select id="expenseType">
-      <option value="delivery">Delivery</option>
-      <option value="advert">Advert</option>
-      <option value="officeEquipmentPurchase">Office Equipment Purchase</option>
-    </select>
-    <button>Add New</button>
-    <!-- Add expense-related content and functionality here based on the selected option -->
+    <div class="container">
+      <div id="salesSection">
+        <h1>Sales</h1>
+        <p>Here you can track your sales and revenue.</p>
+        <!-- Add sales-related content and functionality here -->
+        <div id="newSaleFormContainer" style="display: none">
+          <h1>Create New Sale</h1>
+        </div>
+        <button id="addNewSalesButton">Add New</button>
+      </div>
 
-    <h1>Returns</h1>
-    <p>Keep track of your returns and manage customer refunds.</p>
-    <!-- Add returns-related content and functionality here -->
-    <button>Add New</button>
+      <div id="expensesSection">
+        <h1>Expenses</h1>
+        <p>Record your business expenses using the dropdown options:</p>
+        <select id="expenseType">
+          <option value="delivery">Delivery</option>
+          <option value="advert">Advert</option>
+          <option value="officeEquipmentPurchase">Office Equipment Purchase</option>
+        </select>
+        <div id="advertFormContainer" style="display: none">
+          <h1>Create New Advert</h1>
+        </div>
+
+        <div id="itemPurchaseFormContainer" style="display: none">
+          <h1>Create New Item Purchase</h1>
+        </div>
+
+        <div id="deliveryFormContainer" style="display: none">
+          <h1>Create New Delivery</h1>
+        </div>
+        <button id="addNewExpenseButton">Add New</button>
+        <!-- Add expense-related content and functionality here based on the selected option -->
+      </div>
+
+      <div id="returnsSection">
+        <h1>Returns</h1>
+        <p>Keep track of your returns and manage customer refunds.</p>
+        <!-- Add returns-related content and functionality here -->
+        <button>Add New</button>
+      </div>
+    </div>
+
+    <script type="module" src="../js/main.js"></script>
   </body>
 </html>
