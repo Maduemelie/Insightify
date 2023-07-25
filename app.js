@@ -5,6 +5,7 @@ const path = require('path');
 const salesRouter = require('./routes/salesRoute');
 const customerRouter = require('./routes/customerRoute');
 const productRouter = require('./routes/productRoute');
+const expenseRouter = require('./routes/expenseRoute');
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.static("public"));
 app.use("/api/v1/sales", salesRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/expenses", expenseRouter);
 
 app.get('/', (req, res) => { 
     res.render('Dailypage');

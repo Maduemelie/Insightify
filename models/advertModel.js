@@ -8,10 +8,6 @@ const advertSchema = new Schema({
     type: String,
     required: true,
   },
-  impressions: {
-    type: Number,
-    required: true,
-  },
 });
 
 const Advert = Expense.discriminator('Advert', advertSchema);

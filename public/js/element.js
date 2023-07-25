@@ -56,12 +56,23 @@ function createNewSaleForm() {
 function generateAdvertForm() {
     const advertFormFields = [
         { name: "platform", label: "Platform", type: "text", required: true },
-        { name: "impressions", label: "Impressions", type: "number", required: true },
         { name: "description", label: "Description", type: "text", required: false },
         { name: "amount", label: "Amount", type: "number", required: true },
         { name: "date", label: "Date", type: "date", required: true },
       ];
-      return generateForm("New Advert", advertFormFields, "/adverts");
+      const form = generateForm("New Advert", advertFormFields, "/api/v1/expenses/newExpense");
+
+  // Add a hidden input field to store the type value
+  const expenseTypeSelect = document.getElementById("expenseType");
+  const selectedExpenseType = expenseTypeSelect.value;
+
+  const typeInput = document.createElement("input");
+  typeInput.type = "hidden";
+  typeInput.name = "type";
+  typeInput.value = selectedExpenseType;
+  form.appendChild(typeInput);
+
+  return form;
 }
 
 // Function to generate the Item Purchase form
@@ -74,7 +85,19 @@ function generateItemPurchaseForm() {
         { name: "amount", label: "Amount", type: "number", required: true },
         { name: "date", label: "Date", type: "date", required: true },
     ];
-    return generateForm("New Item Purchase", itemPurchaseFormFields, "/item-purchases");
+    const form = generateForm("New Item Purchase", itemPurchaseFormFields, "/api/v1/expenses/newExpense")
+
+    // Add a hidden input field to store the type value
+    const expenseTypeSelect = document.getElementById("expenseType");
+    const selectedExpenseType = expenseTypeSelect.value;
+  
+    const typeInput = document.createElement("input");
+    typeInput.type = "hidden";
+    typeInput.name = "type";
+    typeInput.value = selectedExpenseType;
+    form.appendChild(typeInput);
+  
+    return form;
       
 }
 
@@ -84,12 +107,23 @@ function generateDeliveryForm() {
         { name: "deliveryDate", label: "Delivery Date", type: "date", required: true },
         { name: "recipientName", label: "Recipient Name", type: "text", required: true },
         { name: "description", label: "Description", type: "text", required: false },
-        { name: "amount", label: "Amount", type: "number", required: true },
-        { name: "date", label: "Date", type: "date", required: true },
+      { name: "amount", label: "Amount", type: "number", required: true },
+      { name: "date", label: "Date", type: "date", required: true },
       ];
       
-    return generateForm("New Delivery", deliveryFormFields, "/deliveries")
-        ;
+      const form = generateForm("New Delivery", deliveryFormFields, "/api/v1/expenses/newExpense");
+
+      // Add a hidden input field to store the type value
+      const expenseTypeSelect = document.getElementById("expenseType");
+      const selectedExpenseType = expenseTypeSelect.value;
+    
+      const typeInput = document.createElement("input");
+      typeInput.type = "hidden";
+      typeInput.name = "type";
+      typeInput.value = selectedExpenseType;
+      form.appendChild(typeInput);
+    
+      return form;
 }
 
 

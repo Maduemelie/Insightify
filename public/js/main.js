@@ -43,7 +43,7 @@ addNewExpense.addEventListener("click", () => {
     const advertForm = element.generateAdvertForm();
     advertFormContainer.appendChild(advertForm);
     element.toggleFormContainer("advertFormContainer", "addNewExpenseButton");
-  } else if (selectedExpenseType === "officeEquipmentPurchase") {
+  } else if (selectedExpenseType === "itemPurchase") {
     const itemPurchaseForm = element.generateItemPurchaseForm();
     itemPurchaseFormContainer.appendChild(itemPurchaseForm);
     element.toggleFormContainer(
