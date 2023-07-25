@@ -13,13 +13,17 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  shipment: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Shipment',
-    required: true,
-  },
+  // shipment: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Shipment',
+  //   required: true,
+  // },
   category: {
     type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
     required: true,
   },
   description: {

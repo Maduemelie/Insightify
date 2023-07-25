@@ -3,6 +3,8 @@ const cors = require('cors');
 const ejs = require('ejs');
 const path = require('path');
 const salesRouter = require('./routes/salesRoute');
+const customerRouter = require('./routes/customerRoute');
+const productRouter = require('./routes/productRoute');
 
 
 const app = express();
@@ -14,6 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static("public"));
 app.use("/api/v1/sales", salesRouter);
+app.use("/api/v1/customers", customerRouter);
+app.use("/api/v1/products", productRouter);
 
 app.get('/', (req, res) => { 
     res.render('Dailypage');

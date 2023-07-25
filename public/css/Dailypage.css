@@ -97,3 +97,77 @@ select option {
   flex: 1; /* Allow the divs to grow and occupy equal space inside the container */
   min-width: 300px; /* Set a minimum width for the divs */
 }
+/* Styles for the Sales Form */
+#salesForm {
+  display: none; /* Hide the form by default */
+}
+
+/*  
+ #advertForm {
+  display: none; 
+}
+
+
+#deliveryForm {
+  display: none; 
+}
+
+
+#itemPurchaseForm {
+  display: none; 
+} */
+
+/* Shared Styles for All Forms */
+form {
+  background-color: #fdfcf1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+h1 {
+  color: #1d3d59;
+  margin-bottom: 20px;
+}
+
+label {
+  color: #1d3d59;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+input,
+select {
+  padding: 8px;
+  border: 1px solid #7aadd5; /* Light Blue */
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+button {
+  background-color: #19344d;
+  color: #f2c849;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0469ce;
+}
+
+/* Media Query for Responsive Layout */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Change to a vertical layout on small screens */
+  }
+
+  #salesSection,
+  #expensesSection,
+  #returnsSection {
+    min-width: auto; /* Remove the minimum width on small screens */
+    margin-bottom: 20px;
+  }
+}

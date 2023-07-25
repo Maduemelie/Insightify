@@ -4,43 +4,27 @@ const Customer = require("../models/customerModel");
 const catchAsync = require("../utils/catchAsync");
 
 const createNewSale = catchAsync(async (req, res) => {
-  const {
-    product: productId,
-    customer: customerId,
-    quantity,
-    totalAmount,
-    saleDate,
-    paymentMethod,
-    paymentStatus,
-    discount,
-    salesPerson,
-  } = req.body;
+  const { product, customer, ...rest } = req.body;
 
-  // Find the corresponding Product and Customer documents using their IDs
-  const product = await Product.findById(productId);
-  const customer = await Customer.findById(customerId);
+   // Split the customer name into first name and last name
+   const [firstName, lastName] = customer.split(" ");
 
+   // Find the corresponding Product and Customer documents using their names
+   const [foundProduct, foundCustomer] = await Promise.all([
+     Product.findOne({ productName: product }).select("_id"),
+     Customer.findOne({ firstName, lastName }).select("_id"),
+   ]);
+ 
   // Ensure that both Product and Customer exist
-  if (!product) {
-    return res.status(404).json({ error: "Product not found" });
-  }
-
-  if (!customer) {
-    return res.status(404).json({ error: "Customer not found" });
+  if (!foundProduct || !foundCustomer) {
+    return res.status(404).json({ error: "Product or Customer not found" });
   }
 
   const sale = await Sales.create({
-    product,
-    customer,
-    quantity,
-    totalAmount,
-    saleDate,
-    paymentMethod,
-    paymentStatus,
-    discount,
-    salesPerson,
+    product: foundProduct,
+    customer: foundCustomer,
+    ...rest,
   });
-
   res.status(201).json({ sale });
 });
 
