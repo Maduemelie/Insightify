@@ -27,6 +27,24 @@
       </nav>
     </header>
 
+    <div id="inforgraphics">
+      <div id="profitchart-container"><canvas id="profitChart"></canvas></div>
+      <div id="dailySalesAnalysis">
+        <!-- Display the daily sales data -->
+        <h2>Daily Sales Data:</h2>
+        <table id="dailySalesTable">
+          <!-- The daily sales data will be added here dynamically -->
+        </table>
+  
+        <!-- Display additional infographics -->
+       
+        <p>Total Sales: <span id="totalSales"></span></p>
+        <p>Total Products Sold: <span id="totalProducts"></span></p>
+      </div>
+
+     
+    </div>
+
     <div class="container">
       <div id="salesSection">
         <h1>Sales</h1>
@@ -44,9 +62,7 @@
         <select id="expenseType" name="type">
           <option value="delivery">Delivery</option>
           <option value="advert">Advert</option>
-          <option value="itemPurchase">
-            Office Equipment Purchase
-          </option>
+          <option value="itemPurchase">Office Equipment Purchase</option>
         </select>
         <div id="advertFormContainer" style="display: none">
           <h1>Create New Advert</h1>
@@ -73,6 +89,7 @@
         <button id="addNewReturnButton">Add New</button>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
 
     <script type="module" src="../js/main.js"></script>
   </body>

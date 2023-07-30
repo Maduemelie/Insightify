@@ -1,0 +1,157 @@
+[
+    {
+      "product": "product_id_1",
+      "customer": "customer_id_1",
+      "quantity": 5,
+      "totalAmount": 1000,
+      "saleDate": "2023-07-26T10:00:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 50,
+      "salesPerson": "John Doe"
+    },
+    {
+      "product": "product_id_2",
+      "customer": "customer_id_2",
+      "quantity": 3,
+      "totalAmount": 750,
+      "saleDate": "2023-07-26T12:00:00Z",
+      "paymentMethod": "Card",
+      "paymentStatus": "Paid",
+      "discount": 25,
+      "salesPerson": "Jane Smith"
+    },
+    {
+      "product": "product_id_1",
+      "customer": "customer_id_3",
+      "quantity": 2,
+      "totalAmount": 450,
+      "saleDate": "2023-07-27T09:30:00Z",
+      "paymentMethod": "Bank Transfer",
+      "paymentStatus": "Unpaid",
+      "discount": 0,
+      "salesPerson": "Mike Johnson"
+    },
+    {
+      "product": "product_id_3",
+      "customer": "customer_id_4",
+      "quantity": 1,
+      "totalAmount": 150,
+      "saleDate": "2023-07-27T14:15:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 10,
+      "salesPerson": "Sarah Lee"
+    },
+    {
+      "product": "product_id_2",
+      "customer": "customer_id_5",
+      "quantity": 4,
+      "totalAmount": 900,
+      "saleDate": "2023-07-28T11:45:00Z",
+      "paymentMethod": "Card",
+      "paymentStatus": "Paid",
+      "discount": 30,
+      "salesPerson": "David Brown"
+    },
+    {
+      "product": "product_id_1",
+      "customer": "customer_id_6",
+      "quantity": 3,
+      "totalAmount": 600,
+      "saleDate": "2023-07-28T16:30:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 20,
+      "salesPerson": "Emily Wilson"
+    },
+    {
+      "product": "product_id_4",
+      "customer": "customer_id_7",
+      "quantity": 2,
+      "totalAmount": 300,
+      "saleDate": "2023-07-29T09:00:00Z",
+      "paymentMethod": "Card",
+      "paymentStatus": "Paid",
+      "discount": 15,
+      "salesPerson": "Tom Anderson"
+    },
+    {
+      "product": "product_id_2",
+      "customer": "customer_id_8",
+      "quantity": 6,
+      "totalAmount": 1350,
+      "saleDate": "2023-07-29T13:45:00Z",
+      "paymentMethod": "Bank Transfer",
+      "paymentStatus": "Unpaid",
+      "discount": 40,
+      "salesPerson": "Jessica Martinez"
+    },
+    {
+      "product": "product_id_3",
+      "customer": "customer_id_9",
+      "quantity": 1,
+      "totalAmount": 200,
+      "saleDate": "2023-07-30T10:30:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 5,
+      "salesPerson": "Michael Jones"
+    },
+    {
+      "product": "product_id_4",
+      "customer": "customer_id_10",
+      "quantity": 3,
+      "totalAmount": 450,
+      "saleDate": "2023-07-30T14:00:00Z",
+      "paymentMethod": "Card",
+      "paymentStatus": "Paid",
+      "discount": 25,
+      "salesPerson": "Sophia Davis"
+    },
+    {
+      "product": "product_id_1",
+      "customer": "customer_id_11",
+      "quantity": 4,
+      "totalAmount": 800,
+      "saleDate": "2023-07-31T11:00:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 10,
+      "salesPerson": "William Clark"
+    },
+    {
+      "product": "product_id_3",
+      "customer": "customer_id_12",
+      "quantity": 2,
+      "totalAmount": 400,
+      "saleDate": "2023-07-31T15:30:00Z",
+      "paymentMethod": "Card",
+      "paymentStatus": "Paid",
+      "discount": 15,
+      "salesPerson": "Olivia Taylor"
+    },
+    {
+      "product": "product_id_2",
+      "customer": "customer_id_13",
+      "quantity": 5,
+      "totalAmount": 1200,
+      "saleDate": "2023-08-01T10:15:00Z",
+      "paymentMethod": "Bank Transfer",
+      "paymentStatus": "Unpaid",
+      "discount": 35,
+      "salesPerson": "Ethan Anderson"
+    },
+    {
+      "product": "product_id_4",
+      "customer": "customer_id_14",
+      "quantity": 1,
+      "totalAmount": 150,
+      "saleDate": "2023-08-01T14:45:00Z",
+      "paymentMethod": "Cash",
+      "paymentStatus": "Paid",
+      "discount": 5,
+      "salesPerson": "Ava Martin"
+    }
+  ]
+  

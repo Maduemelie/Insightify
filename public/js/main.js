@@ -1,4 +1,24 @@
 import element from "../js/element.js";
+import ui from "../js/ui.js";
+
+// Usage: Call the function with your actual array of daily profit data
+// Function to generate a random number between min and max (inclusive)
+function getRandomNumber(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// Generate a sample dailyProfits array with random profit values for each day (e.g., 30 days)
+const numberOfDays = 30; // You can adjust this as needed
+const minProfit = 100; // Minimum profit value
+const maxProfit = 1000; // Maximum profit value
+
+const dailyProfits = Array.from({ length: numberOfDays }, () =>
+  Math.round(getRandomNumber(minProfit, maxProfit))
+);
+
+
+ui.dailySalesAnalysis();
+ui.createProfitChart(dailyProfits);
 
 // Add event listener to the "Add New Sales" button
 const addNewSalesButton = document.getElementById("addNewSalesButton");

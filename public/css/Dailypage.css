@@ -102,20 +102,18 @@ select option {
   display: none; /* Hide the form by default */
 }
 
-/*  
- #advertForm {
-  display: none; 
+/* Add custom styles for the chart container and canvas */
+.chart-container {
+  width: 100%;
+  height: 200px; /* Reduce the height to make the chart smaller */
+  overflow: hidden;
 }
 
-
-#deliveryForm {
-  display: none; 
+canvas#profitChart {
+  width: 100%; /* Set the width to 100% of the container */
+  height: 100%; /* Allow the height to adjust proportionally based on the width */
 }
 
-
-#itemPurchaseForm {
-  display: none; 
-} */
 
 /* Shared Styles for All Forms */
 form {
@@ -170,4 +168,81 @@ button:hover {
     min-width: auto; /* Remove the minimum width on small screens */
     margin-bottom: 20px;
   }
+}
+
+
+/* Styles for the #inforgraphics container */
+#inforgraphics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+  background-color: #fdfcf1;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for individual infographics */
+#profitchart-container,
+#dailySalesAnalysis {
+  flex: 1;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fdfcf1;
+}
+
+/* Styles for the profit chart canvas */
+#profitchart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+/* Styles for the daily sales data */
+#dailySalesAnalysis h2 {
+  color: #1d3d59;
+  margin-bottom: 10px;
+}
+
+#dailySalesTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fdfcf1;
+  border: 1px solid #7aadd5;
+}
+
+#dailySalesTable th,
+#dailySalesTable td {
+  padding: 10px;
+  border: 1px solid #7aadd5;
+}
+
+#dailySalesTable th {
+  background-color: #0469ce;
+  color: #f2c849;
+  font-weight: bold;
+}
+
+#dailySalesTable tr:nth-child(even) {
+  background-color: #c1d8eb;
+}
+
+#dailySalesTable tr:nth-child(odd) {
+  background-color: #d55e00;
+  color: #fdfcf1;
+}
+
+/* Styles for the additional infographics */
+#dailySalesAnalysis p {
+  margin-bottom: 10px;
+}
+
+#dailySalesAnalysis span {
+  color: #0469ce;
+  font-weight: bold;
 }
