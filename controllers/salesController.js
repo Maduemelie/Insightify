@@ -81,47 +81,5 @@ const dailySalesAnalysis = catchAsync(async (req, res) => {
   res.status(200).json({ dailySales });
 });
 
-// const updateProducts = async () => {
-//   try {
-//     // Update documents that have "sellingPrice" and do not have "unitPrice"
-//     await Sales.updateMany(
-//       { sellingPrice: { $exists: true }, unitPrice: { $exists: false } },
-//       console.log("Updating products..."),
-//       { $unset: { sellingPrice: "" } },
-//       console.log("All products updated successfully."),
-//       { maxTimeMS: 60000 } // Set the timeout limit to 1 minute
-//     );
-
-//     console.log("Updating products...");
-
-//     // Find documents that do not have "unitPrice" or "sellingPrice" using a cursor
-//     const cursor = Sales.find({
-//       $or: [
-//         { unitPrice: { $exists: false } },
-//         { sellingPrice: { $exists: false } },
-//       ],
-//     }).cursor();
-
-//     // Update documents without "unitPrice" or "sellingPrice" using the cursor
-//     for (
-//       let doc = await cursor.next();
-//       doc != null;
-//       doc = await cursor.next()
-//     ) {
-//       // Calculate the unitPrice by dividing the totalAmount by quantity
-//       const unitPrice = doc.totalAmount / doc.quantity;
-
-//       // Update the document with the calculated unitPrice
-//       await Sales.updateOne({ _id: doc._id }, { $set: { unitPrice } });
-//     }
-
-//     console.log("All products updated successfully.");
-//   } catch (error) {
-//     console.error("Error updating products:", error);
-//   }
-// };
-
-// // Call the function to update the products
-// updateProducts();
 
 module.exports = { createNewSale, dailySalesAnalysis };

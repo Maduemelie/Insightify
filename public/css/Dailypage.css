@@ -114,7 +114,6 @@ canvas#profitChart {
   height: 100%; /* Allow the height to adjust proportionally based on the width */
 }
 
-
 /* Shared Styles for All Forms */
 form {
   background-color: #fdfcf1;
@@ -170,7 +169,6 @@ button:hover {
   }
 }
 
-
 /* Styles for the #inforgraphics container */
 #inforgraphics {
   display: flex;
@@ -185,13 +183,18 @@ button:hover {
 
 /* Styles for individual infographics */
 #profitchart-container,
-#dailySalesAnalysis {
+#dailySalesAnalysis,
+#dailyExpenseAnalysis {
   flex: 1;
-  margin: 10px;
-  padding: 20px;
+  margin: 5px;
+  padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fdfcf1;
+  overflow: hidden; /* Hide any overflowing content */
+  display: flex; /* Use flexbox to allow content to wrap */
+  flex-wrap: wrap; /* Wrap the content inside the div */
+  gap: 10px; /* Add a gap between the divs */
 }
 
 /* Styles for the profit chart canvas */
@@ -203,46 +206,63 @@ button:hover {
 }
 
 /* Styles for the daily sales data */
-#dailySalesAnalysis h2 {
+#dailySalesAnalysis h2 ,
+#dailyExpenseAnalysis h2{
   color: #1d3d59;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  font-size: 16px;
 }
 
-#dailySalesTable {
+#dailySalesTable,
+#dailyExpenseTable {
+  flex-basis: 100%;
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   background-color: #fdfcf1;
   border: 1px solid #7aadd5;
+  overflow: auto;
+  font-size: 14px;
 }
 
 #dailySalesTable th,
-#dailySalesTable td {
-  padding: 10px;
+#dailyExpenseTable th,
+#dailySalesTable td,
+#dailyExpenseTable td {
+  padding: 8px;
+  font-size: 10px;
   border: 1px solid #7aadd5;
 }
 
-#dailySalesTable th {
+#dailySalesTable th,
+#dailyExpenseTable th {
   background-color: #0469ce;
   color: #f2c849;
+  font-size: 12px; /* Adjust the font size for the table headers */
   font-weight: bold;
 }
 
-#dailySalesTable tr:nth-child(even) {
+#dailySalesTable tr:nth-child(even),
+#dailyExpenseTable tr:nth-child(even) {
   background-color: #c1d8eb;
 }
 
-#dailySalesTable tr:nth-child(odd) {
+#dailySalesTable tr:nth-child(odd),
+#dailyExpenseTable tr:nth-child(odd) {
   background-color: #d55e00;
   color: #fdfcf1;
 }
 
 /* Styles for the additional infographics */
-#dailySalesAnalysis p {
-  margin-bottom: 10px;
+#dailySalesAnalysis p,
+#dailyExpenseAnalysis p {
+  margin: 0; /* Remove default margin to prevent spacing */
+  font-size: 12px; 
 }
 
-#dailySalesAnalysis span {
+#dailySalesAnalysis span,
+#dailyExpenseAnalysis span {
   color: #0469ce;
   font-weight: bold;
+  /* font-size: 10px; */
 }

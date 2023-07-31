@@ -23,7 +23,6 @@ const createNewExpense = catchAsync(async (req, res) => {
       });
       break;
     case "advert":
-      
       newExpense = await Advert.create({
         type,
         description,
@@ -56,5 +55,30 @@ const createNewExpense = catchAsync(async (req, res) => {
     },
   });
 });
-
-module.exports = { createNewExpense };
+const dailyExpenseAnalysis = catchAsync(async (req, res) => {
+  let dailyExpenses = await Expense.aggregate([
+    {
+      $group: {
+        _id: {
+          expenseType: "$__t",
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+        },
+        totalAmount: { $sum: "$amount" },
+        count: { $sum: 1 }, // Count the number of expenses for each type and date
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        expenseType: "$_id.expenseType",
+        date: "$_id.date",
+        totalAmount: 1,
+        count: 1,
+      },
+    },
+  ]);
+  res.status(200).json({
+    dailyExpenses,
+  });
+});
+module.exports = { createNewExpense, dailyExpenseAnalysis };

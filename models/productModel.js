@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  quantity: {
+  stockQuantity: {
     type: Number,
     required: true,
   },
@@ -44,11 +44,7 @@ const productSchema = new mongoose.Schema({
     default: true,
   },
 });
-// Define a virtual field "profit" to calculate the profit dynamically
-productSchema.virtual('profit').get(function () {
-    return this.sellingPrice - this.costPrice;
-  });
-  
+
 
 const Product = mongoose.model('Product', productSchema);
 

@@ -55,13 +55,39 @@ salesSchema.pre("save", async function (next) {
     if (!product) {
       throw new Error("Product not found");
     }
-    console.log(product.sellingPrice);
+   
     this.unitPrice = product.sellingPrice;
     this.totalAmount = this.unitPrice * this.quantity;
     this.profit = (this.unitPrice - product.costPrice) * this.quantity;
     next();
   } catch (error) {
     next(error);
+  }
+});
+// Function to update product stock quantity after a new sale
+const updateProductStockQuantity = async (productId, soldQuantity) => {
+  try {
+    const Product = mongoose.model("Product");
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    product.stockQuantity -= soldQuantity;
+
+    await product.save();
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Post-save middleware to trigger the update of product stock quantity after a new sale
+salesSchema.post("save", async function (doc) {
+  try {
+    await updateProductStockQuantity(doc.product, doc.quantity);
+  } catch (error) {
+    console.error("Error updating product stock quantity:", error);
   }
 });
 

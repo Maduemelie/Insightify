@@ -5,24 +5,9 @@ const dailySalesAnalysis = async () => {
     console.log(data);
     if (data.dailySales && data.dailySales.length > 0) {
       
-      // Get the #dailySalesAnalysis container
-      const dailySalesAnalysisContainer =
-        document.getElementById("dailySalesAnalysis");
-        const dailySalesAnalysisContainerWidth = dailySalesAnalysisContainer.clientWidth; // Get the width of the container
-      const tableWidth = dailySalesAnalysisContainerWidth * 0.4; 
-       // Set the height of the container based on the width to maintain the aspect ratio
-  const tableHeight = tableWidth * 1.2;
-
-      // Set the width and height of the #dailySalesTable
-      const dailySalesTableWidth = dailySalesAnalysisContainerWidth * 0.4; // Set the #dailySalesTable width to 40% of the container width
-      const dailySalesTableHeight = tableHeight; // Set the #dailySalesTable height to be the same as the chart height
-
-      dailySalesAnalysisContainer.style.width = dailySalesTableWidth + "px";
-      dailySalesAnalysisContainer.style.height = dailySalesTableHeight + "px";
 
       const dailySalesTable = document.getElementById("dailySalesTable");
-      dailySalesTable.width = dailySalesTableWidth;
-      dailySalesTable.height = dailySalesTableHeight;
+
       // Create the table header row
       const tableHeader = document.createElement("tr");
       tableHeader.innerHTML =
@@ -38,16 +23,49 @@ const dailySalesAnalysis = async () => {
 
       const totalSales = document.getElementById("totalSales");
       const totalProduct = document.getElementById("totalProducts");
-      
+
       const totalAmount = data.dailySales[0].totalAmount;
       const totalProductSold = data.dailySales[0].quantity;
 
-
       totalSales.innerHTML = `$${totalAmount}`;
-      totalProducts.innerHTML = `${totalProductSold}`;
+      totalProduct.innerHTML = `${totalProductSold}`;
     }
   } catch (error) {
     console.error("Error fetching daily sales data:", error);
+  }
+};
+
+const dailyExpenseAnalysis = async () => {
+  try {
+    const response = await fetch("/api/v1/expenses/dailyExpenseAnalysis");
+    const data = await response.json();
+    console.log(data);
+    console.log(data.dailyExpenses);
+    if (data.dailyExpenses && data.dailyExpenses.length > 0) {
+
+      const dailyExpenseTable = document.getElementById("dailyExpenseTable");
+     
+      // Create the table header row
+      const tableHeader = document.createElement("tr");
+      tableHeader.innerHTML =
+        "<th>Expense Type</th><th>Expense Date</th><th>Total Amount</th>";
+      dailyExpenseTable.appendChild(tableHeader);
+
+      // Loop through the dailyExpenses data and create table rows
+      data.dailyExpenses.forEach((item) => {
+        const tableRow = document.createElement("tr");
+        tableRow.innerHTML = `<td>${item.expenseType}</td><td>${item.expenseDate}</td><td>${item.totalAmount}</td>`;
+        dailyExpenseTable.appendChild(tableRow);
+      });
+
+      const totalExpenses = document.getElementById("totalExpenses");
+      const totalExpenseType = document.getElementById("totalExpenseType");
+
+      const totalAmount = data.dailyExpenses[0].totalAmount;
+      const totalExpense = data.dailyExpenses[0].count;
+    }
+  } catch (error) {
+    console.error("Error fetching daily expense data:", error);
   }
 };
 
@@ -109,4 +127,4 @@ function createProfitChart(dailyProfits) {
   });
 }
 
-export default { createProfitChart, dailySalesAnalysis };
+export default { createProfitChart, dailySalesAnalysis, dailyExpenseAnalysis };

@@ -16,7 +16,7 @@ const dailyProfits = Array.from({ length: numberOfDays }, () =>
   Math.round(getRandomNumber(minProfit, maxProfit))
 );
 
-
+ui.dailyExpenseAnalysis();
 ui.dailySalesAnalysis();
 ui.createProfitChart(dailyProfits);
 
