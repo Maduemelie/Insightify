@@ -174,17 +174,19 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 2px;
   background-color: #fdfcf1;
-  padding: 20px;
+  padding: 2px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 200px; /* Set a maximum height for the container */
 }
 
 /* Styles for individual infographics */
 #profitchart-container,
 #dailySalesAnalysis,
-#dailyExpenseAnalysis {
+#dailyExpenseAnalysis,
+#bestAndLeastSellingProducts {
   flex: 1;
   margin: 5px;
   padding: 10px;
@@ -195,22 +197,24 @@ button:hover {
   display: flex; /* Use flexbox to allow content to wrap */
   flex-wrap: wrap; /* Wrap the content inside the div */
   gap: 10px; /* Add a gap between the divs */
+  margin-bottom: 3px;
+  max-height: 185px;
 }
 
-/* Styles for the profit chart canvas */
+/* Styles for the profit hart canvas */
 #profitchart-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
 }
 
 /* Styles for the daily sales data */
-#dailySalesAnalysis h2 ,
-#dailyExpenseAnalysis h2{
+#dailySalesAnalysis h2,
+#dailyExpenseAnalysis h2 ,
+#bestAndLeastSellingProducts h2{
   color: #1d3d59;
   margin-bottom: 0px;
-  font-size: 16px;
+  font-size: 9px;
 }
 
 #dailySalesTable,
@@ -218,19 +222,19 @@ button:hover {
   flex-basis: 100%;
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 3px;
   background-color: #fdfcf1;
   border: 1px solid #7aadd5;
   overflow: auto;
-  font-size: 14px;
+  font-size: 9px;
 }
 
 #dailySalesTable th,
 #dailyExpenseTable th,
 #dailySalesTable td,
 #dailyExpenseTable td {
-  padding: 8px;
-  font-size: 10px;
+  padding: 5px;
+  font-size: 8px;
   border: 1px solid #7aadd5;
 }
 
@@ -238,7 +242,7 @@ button:hover {
 #dailyExpenseTable th {
   background-color: #0469ce;
   color: #f2c849;
-  font-size: 12px; /* Adjust the font size for the table headers */
+  font-size: 10px; /* Adjust the font size for the table headers */
   font-weight: bold;
 }
 
@@ -255,9 +259,10 @@ button:hover {
 
 /* Styles for the additional infographics */
 #dailySalesAnalysis p,
-#dailyExpenseAnalysis p {
+#dailyExpenseAnalysis p,
+#bestAndLeastSellingProducts p {
   margin: 0; /* Remove default margin to prevent spacing */
-  font-size: 12px; 
+  font-size: 10px;
 }
 
 #dailySalesAnalysis span,

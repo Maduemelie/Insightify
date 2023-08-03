@@ -1,11 +1,10 @@
+//function to crate the daily sales analysis table
 const dailySalesAnalysis = async () => {
   try {
     const response = await fetch("/api/v1/sales/dailySales");
     const data = await response.json();
     console.log(data);
     if (data.dailySales && data.dailySales.length > 0) {
-      
-
       const dailySalesTable = document.getElementById("dailySalesTable");
 
       // Create the table header row
@@ -24,8 +23,14 @@ const dailySalesAnalysis = async () => {
       const totalSales = document.getElementById("totalSales");
       const totalProduct = document.getElementById("totalProducts");
 
-      const totalAmount = data.dailySales[0].totalAmount;
-      const totalProductSold = data.dailySales[0].quantity;
+      const totalAmount = data.dailySales.reduce(
+        (acc, item) => acc + item.totalAmount,
+        0
+      );
+      const totalProductSold = data.dailySales.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
 
       totalSales.innerHTML = `$${totalAmount}`;
       totalProduct.innerHTML = `${totalProductSold}`;
@@ -35,6 +40,7 @@ const dailySalesAnalysis = async () => {
   }
 };
 
+//function to crate the daily expense analysis table
 const dailyExpenseAnalysis = async () => {
   try {
     const response = await fetch("/api/v1/expenses/dailyExpenseAnalysis");
@@ -42,9 +48,8 @@ const dailyExpenseAnalysis = async () => {
     console.log(data);
     console.log(data.dailyExpenses);
     if (data.dailyExpenses && data.dailyExpenses.length > 0) {
-
       const dailyExpenseTable = document.getElementById("dailyExpenseTable");
-     
+
       // Create the table header row
       const tableHeader = document.createElement("tr");
       tableHeader.innerHTML =
@@ -54,22 +59,41 @@ const dailyExpenseAnalysis = async () => {
       // Loop through the dailyExpenses data and create table rows
       data.dailyExpenses.forEach((item) => {
         const tableRow = document.createElement("tr");
-        tableRow.innerHTML = `<td>${item.expenseType}</td><td>${item.expenseDate}</td><td>${item.totalAmount}</td>`;
+        tableRow.innerHTML = `<td>${item.expenseType}</td><td>${item.date}</td><td>${item.totalAmount}</td>`;
         dailyExpenseTable.appendChild(tableRow);
       });
-
+      //additional information on expenses
       const totalExpenses = document.getElementById("totalExpenses");
-      const totalExpenseType = document.getElementById("totalExpenseType");
 
-      const totalAmount = data.dailyExpenses[0].totalAmount;
-      const totalExpense = data.dailyExpenses[0].count;
+      // Calculate the total expenses
+      let totalExpenseAmount = data.dailyExpenses.reduce(
+        (total, item) => total + item.totalAmount,
+        0
+      );
+      totalExpenses.innerHTML = `$${totalExpenseAmount}`;
+
+      // Calculate the total expense amount and total number of expenses
+      totalExpenseAmount = 0;
+      let totalExpenseCount = 0;
+
+      data.dailyExpenses.forEach((item) => {
+        totalExpenseAmount += item.totalAmount;
+        totalExpenseCount += 1;
+      });
+
+      // Calculate the average expense amount
+      const averageExpense = totalExpenseAmount / totalExpenseCount;
+
+      // Display the average expense amount
+      const averageExpenseElement = document.getElementById("averageExpense");
+      averageExpenseElement.textContent = ` $${averageExpense.toFixed(2)}`;
     }
   } catch (error) {
     console.error("Error fetching daily expense data:", error);
   }
 };
 
-// Function to create the chart
+// Function to create the profit chart
 function createProfitChart(dailyProfits) {
   const chartContainer = document.getElementById("profitchart-container");
   const chartContainerWidth = chartContainer.clientWidth; // Get the width of the container
@@ -126,5 +150,48 @@ function createProfitChart(dailyProfits) {
     },
   });
 }
+//function to create best selling and least selling products
+const bestAndLeastSellingProductsDiv = document.getElementById(
+  "bestAndLeastSellingProducts"
+);
+console.log(bestAndLeastSellingProductsDiv);
 
-export default { createProfitChart, dailySalesAnalysis, dailyExpenseAnalysis };
+const fetchAndDisplayBestAndLeastSellingProducts = async () => {
+  console.log("fetching best and least selling products");
+  try {
+    const response = await fetch("/api/v1/sales/bestAndLeastSellingProducts");
+    console.log(response);
+        const data = await response.json();
+        console.log(data);
+        const products = data.products;
+    console.log(products);
+        if (products.length > 0) {
+          const productsList = products.map(product => `
+            <p>${product.type}: ${product.details.productName}</p>
+          `).join("");
+    console.log(productsList);
+          bestAndLeastSellingProductsDiv.innerHTML = `
+            <h2>Best and Least Selling Products:</h2>
+            ${productsList}
+          `;
+          console.log(bestAndLeastSellingProductsDiv);
+        } else {
+          bestAndLeastSellingProductsDiv.innerHTML = "<p>No data available.</p>";
+        }
+  } catch (error) {
+    console.error(
+      "Error fetching and displaying Best and Least Selling Products:",
+      error
+    );
+        bestAndLeastSellingProductsDiv.innerHTML = "<p>An error occurred.</p>";
+  }
+};
+
+// Fetch and display Best and Least Selling Products data
+
+export default {
+  createProfitChart,
+  dailySalesAnalysis,
+  dailyExpenseAnalysis,
+  fetchAndDisplayBestAndLeastSellingProducts,
+};

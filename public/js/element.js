@@ -138,12 +138,12 @@ function generateItemPurchaseForm() {
 // Function to generate the Delivery form
 function generateDeliveryForm() {
   const deliveryFormFields = [
-    {
-      name: "deliveryDate",
-      label: "Delivery Date",
-      type: "date",
-      required: true,
-    },
+    // {
+    //   name: "deliveryDate",
+    //   label: "Delivery Date",
+    //   type: "date",
+    //   required: true,
+    // },
     {
       name: "recipientName",
       label: "Recipient Name",

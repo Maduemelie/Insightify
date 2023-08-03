@@ -19,6 +19,9 @@ const dailyProfits = Array.from({ length: numberOfDays }, () =>
 ui.dailyExpenseAnalysis();
 ui.dailySalesAnalysis();
 ui.createProfitChart(dailyProfits);
+document.addEventListener("DOMContentLoaded", () => {
+  ui.fetchAndDisplayBestAndLeastSellingProducts();
+});
 
 // Add event listener to the "Add New Sales" button
 const addNewSalesButton = document.getElementById("addNewSalesButton");

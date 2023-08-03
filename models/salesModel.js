@@ -55,7 +55,7 @@ salesSchema.pre("save", async function (next) {
     if (!product) {
       throw new Error("Product not found");
     }
-   
+
     this.unitPrice = product.sellingPrice;
     this.totalAmount = this.unitPrice * this.quantity;
     this.profit = (this.unitPrice - product.costPrice) * this.quantity;
@@ -75,7 +75,7 @@ const updateProductStockQuantity = async (productId, soldQuantity) => {
     }
 
     product.stockQuantity -= soldQuantity;
-
+    product.totalQuantitySold += soldQuantity;
     await product.save();
   } catch (error) {
     throw error;

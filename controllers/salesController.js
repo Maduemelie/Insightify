@@ -40,7 +40,7 @@ const dailySalesAnalysis = catchAsync(async (req, res) => {
             },
           },
           totalAmount: { $sum: "$totalAmount" },
-          totalProit: { $sum: "$profit"  },
+          totalProit: { $sum: "$profit" },
           quantity: { $sum: "$quantity" }, // Count the number of sales for each product and date
         },
       },
@@ -77,9 +77,64 @@ const dailySalesAnalysis = catchAsync(async (req, res) => {
     { cursor: { batchSize: 100 } }
   );
   dailySales = await dailySales.toArray();
-  console.log(dailySales);
+  // console.log(dailySales);
   res.status(200).json({ dailySales });
 });
 
+//function to get the best and least selling products
+const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
+  const bestSellingProduct = await Sales.aggregate([
+    {
+      $group: {
+        _id: "$product",
+        totalQuantitySold: { $sum: "$quantity" },
+      },
+    },
+    {
+      $sort: { totalQuantitySold: -1 }, 
+    },
+    {
+      $limit: 1, // Get only the top product
+    },
+  ]);
 
-module.exports = { createNewSale, dailySalesAnalysis };
+  const leastSellingProduct = await Sales.aggregate([
+    {
+      $group: {
+        _id: "$product",
+        totalQuantitySold: { $sum: "$quantity" },
+      },
+    },
+    {
+      $sort: { totalQuantitySold: 1 }, // Sort in ascending order of totalQuantitySold
+    },
+    {
+      $limit: 1, // Get only the top product
+    },
+  ]);
+
+  const products = [];
+
+  if (bestSellingProduct.length > 0) {
+    const bestProductId = bestSellingProduct[0]._id;
+    const bestSellingProductDetails = await Product.findById(bestProductId);
+    products.push({ type: "Best Selling", details: bestSellingProductDetails });
+  }
+
+  if (leastSellingProduct.length > 0) {
+    const leastProductId = leastSellingProduct[0]._id;
+    const leastSellingProductDetails = await Product.findById(leastProductId);
+    products.push({
+      type: "Least Selling",
+      details: leastSellingProductDetails,
+    });
+  }
+ res.status(200).json({ products });
+  // return products;
+});
+
+module.exports = {
+  createNewSale,
+  dailySalesAnalysis,
+  getBestAndLeastSellingProducts,
+};
