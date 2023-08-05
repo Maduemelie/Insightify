@@ -27,60 +27,68 @@ const createNewSale = catchAsync(async (req, res) => {
   });
   res.status(201).json({ sale });
 });
-// Use the aggregation pipeline to calculate the total amount sold for each day and product
-const dailySalesAnalysis = catchAsync(async (req, res) => {
-  let dailySales = await Sales.aggregate(
-    [
-      {
-        $group: {
-          _id: {
-            product: "$product",
-            saleDate: {
-              $dateToString: { format: "%Y-%m-%d", date: "$saleDate" },
-            },
-          },
-          totalAmount: { $sum: "$totalAmount" },
-          totalProit: { $sum: "$profit" },
-          quantity: { $sum: "$quantity" }, // Count the number of sales for each product and date
-        },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "_id.product",
-          foreignField: "_id",
-          as: "productData",
-        },
-      },
-      {
-        $unwind: "$productData",
-      },
-      {
-        $project: {
-          _id: 0,
-          product: "$productData.productName",
-          costPrice: "$productData.costPrice",
-          saleDate: "$_id.saleDate",
-          totalAmount: 1,
-          quantity: 1,
-          unitPrice: 1, // Use 1 to preserve the existing value (which is the totalAmount divided by quantity)
-          profit: 1, // Use 1 to preserve the existing value (which is the totalAmount minus costPrice)
-          totalProit: 1, // Calculate the total profit by multiplying the profit by the quantity
-        },
-      },
-      {
-        $sort: {
-          saleDate: 1, // Sort in ascending order (earliest to latest date)
-        },
-      },
-    ],
-    { cursor: { batchSize: 100 } }
-  );
-  dailySales = await dailySales.toArray();
-  // console.log(dailySales);
-  res.status(200).json({ dailySales });
-});
 
+//function to get the daily sales data
+const getDailySalesData = async () => {
+  const dailySales = await Sales.aggregate([
+    {
+      $group: {
+        _id: {
+          product: "$product",
+          saleDate: {
+            $dateToString: { format: "%Y-%m-%d", date: "$saleDate" },
+          },
+        },
+        totalAmount: { $sum: "$totalAmount" },
+        totalProfit: { $sum: "$profit" },
+        quantity: { $sum: "$quantity" },
+      },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "_id.product",
+        foreignField: "_id",
+        as: "productData",
+      },
+    },
+    {
+      $unwind: "$productData",
+    },
+    {
+      $project: {
+        _id: 0,
+        product: "$productData.productName",
+        costPrice: "$productData.costPrice",
+        saleDate: "$_id.saleDate",
+        totalAmount: 1,
+        quantity: 1,
+        unitPrice: "$productData.sellingPrice",
+        profit: 1,
+        totalProfit: 1,
+      },
+    },
+    {
+      $sort: {
+        saleDate: 1,
+      },
+    },
+  ]);
+
+  return dailySales;
+};
+
+//function to crate the daily sales analysis 
+const dailySalesAnalysis = catchAsync(async (req, res) => { 
+  const dailySales = await getDailySalesData();
+  res.status(200).json({ dailySales });
+})
+
+//function to render the daily sales page
+const renderDailySalesPage = catchAsync(async (req, res) => { 
+  const dailySales = await getDailySalesData();
+  res.status(200).render("incomeDailySaleData", { dailySales });
+});
 //function to get the best and least selling products
 const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
   const bestSellingProduct = await Sales.aggregate([
@@ -137,4 +145,5 @@ module.exports = {
   createNewSale,
   dailySalesAnalysis,
   getBestAndLeastSellingProducts,
+  renderDailySalesPage,
 };

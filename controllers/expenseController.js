@@ -55,7 +55,7 @@ const createNewExpense = catchAsync(async (req, res) => {
     },
   });
 });
-const dailyExpenseAnalysis = catchAsync(async (req, res) => {
+const getdailyExpenseAnalysis = async () => {
   let dailyExpenses = await Expense.aggregate([
     {
       $group: {
@@ -77,8 +77,23 @@ const dailyExpenseAnalysis = catchAsync(async (req, res) => {
       },
     },
   ]);
+
+  return dailyExpenses;
+};
+
+const dailyExpenseAnalysis = catchAsync(async (req, res) => {
+  const dailyExpenses = await getdailyExpenseAnalysis();
   res.status(200).json({
     dailyExpenses,
   });
 });
-module.exports = { createNewExpense, dailyExpenseAnalysis };
+
+const displayDailyExpensePage = catchAsync(async (req, res) => {
+  const dailyExpenses = await getdailyExpenseAnalysis();
+  res.status(200).render("expense_DailyExpense", {
+    title: "Daily Expense Analysis",
+    dailyExpenses,
+  });
+ })
+
+module.exports = { createNewExpense, displayDailyExpensePage, dailyExpenseAnalysis };

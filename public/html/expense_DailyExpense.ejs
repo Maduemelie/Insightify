@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dailyExpenses.css" />
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <!-- Logo for the App -->
+        <div>
+          <img
+            src="\img\_1ac97b4a-3be5-4280-9346-dc4cc9606830.jpeg"
+            alt="Insightify Logo"
+          />
+        </div>
+  
+        <!-- Navigation Bar -->
+        <nav>
+          <ul>
+            <li><a href="/expense">Expense</a></li>
+            <li><a href="/income">Income</a></li>
+            <li><a href="/profit-analysis">Profit Analysis</a></li>
+            <li><a href="/products">Products</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Expense Type</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const dailyExpense of dailyExpenses) { %>
+            <tr>
+              <td><%= dailyExpense.expenseType %></td>
+              <td><%= dailyExpense.date %></td>
+              <td><%= dailyExpense.totalAmount %></td>
+              <td><%= dailyExpense.count %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+      
+</body>
+</html>

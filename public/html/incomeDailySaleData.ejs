@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/incomeDailySaleData.css" />
+    <title>Insightify Daily</title>
+  </head>
+  <body>
+    <header>
+      <!-- Logo for the App -->
+      <div>
+        <img
+          src="\img\_1ac97b4a-3be5-4280-9346-dc4cc9606830.jpeg"
+          alt="Insightify Logo"
+        />
+      </div>
+
+      <!-- Navigation Bar -->
+      <nav>
+        <ul>
+          <li><a href="/expense">Expense</a></li>
+          <li><a href="/income">Income</a></li>
+          <li><a href="/profit-analysis">Profit Analysis</a></li>
+          <li><a href="/products">Products</a></li>
+        </ul>
+      </nav>
+    </header>
+    <h1>Daily Sales Report</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Cost Price</th>
+          <th>Sale Date</th>
+          <th>Total Amount</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <!-- <th>Profit</th> -->
+          <th>Total Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let sale of dailySales) { %>
+        <tr>
+          <td><%= sale.product %></td>
+          <td><%= sale.costPrice %></td>
+          <td><%= sale.saleDate %></td>
+          <td><%= sale.totalAmount %></td>
+          <td><%= sale.quantity %></td>
+          <td><%= sale.unitPrice %></td>
+          <!-- <td><%= sale.profit %></td> -->
+          <td><%= sale.totalProfit %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -154,36 +154,39 @@ function createProfitChart(dailyProfits) {
 const bestAndLeastSellingProductsDiv = document.getElementById(
   "bestAndLeastSellingProducts"
 );
-console.log(bestAndLeastSellingProductsDiv);
 
 const fetchAndDisplayBestAndLeastSellingProducts = async () => {
   console.log("fetching best and least selling products");
   try {
     const response = await fetch("/api/v1/sales/bestAndLeastSellingProducts");
     console.log(response);
-        const data = await response.json();
-        console.log(data);
-        const products = data.products;
+    const data = await response.json();
+    console.log(data);
+    const products = data.products;
     console.log(products);
-        if (products.length > 0) {
-          const productsList = products.map(product => `
+    if (products.length > 0) {
+      const productsList = products
+        .map(
+          (product) => `
             <p>${product.type}: ${product.details.productName}</p>
-          `).join("");
-    console.log(productsList);
-          bestAndLeastSellingProductsDiv.innerHTML = `
+          `
+        )
+        .join("");
+      console.log(productsList);
+      bestAndLeastSellingProductsDiv.innerHTML = `
             <h2>Best and Least Selling Products:</h2>
             ${productsList}
           `;
-          console.log(bestAndLeastSellingProductsDiv);
-        } else {
-          bestAndLeastSellingProductsDiv.innerHTML = "<p>No data available.</p>";
-        }
+      console.log(bestAndLeastSellingProductsDiv);
+    } else {
+      bestAndLeastSellingProductsDiv.innerHTML = "<p>No data available.</p>";
+    }
   } catch (error) {
     console.error(
       "Error fetching and displaying Best and Least Selling Products:",
       error
     );
-        bestAndLeastSellingProductsDiv.innerHTML = "<p>An error occurred.</p>";
+    bestAndLeastSellingProductsDiv.innerHTML = "<p>An error occurred.</p>";
   }
 };
 

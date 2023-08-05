@@ -9,13 +9,18 @@ const expenseRouter = require("./routes/expenseRoute");
 const returnRouter = require("./routes/returnRoute");
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "public", "html"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static("public"));
+
+
+
+
+
 app.use("/api/v1/sales", salesRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/products", productRouter);

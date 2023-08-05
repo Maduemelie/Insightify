@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/Dailypage.css" />
+
     <title>Insightify Daily</title>
   </head>
   <body>
@@ -29,34 +30,37 @@
 
     <div id="inforgraphics">
       <div id="profitchart-container"><canvas id="profitChart"></canvas></div>
+
       <div id="dailySalesAnalysis">
         <!-- Display the daily sales data -->
         <h2>Daily Sales Data:</h2>
-        <table id="dailySalesTable">
-          <!-- The daily sales data will be added here dynamically -->
-        </table>
-
+        <a href="api/v1/sales/renderDailySalesPage">
+          <table id="dailySalesTable">
+            <!-- The daily sales data will be added here dynamically -->
+          </table>
+        </a>
         <!-- Display additional infographics -->
 
         <p>Total Sales: <span id="totalSales"></span></p>
-        <p> Total Products Sold: <span id="totalProducts"></span></p>
+        <p>Total Products Sold: <span id="totalProducts"></span></p>
       </div>
 
       <!-- Display the daily expense analysis -->
       <div id="dailyExpenseAnalysis">
         <h2>Daily Expense Analysis:</h2>
-        <table id="dailyExpenseTable">
-          <!-- The daily expense analysis will be added here dynamically -->
-        </table>
+        <a href="api/v1/expenses/renderDailyExpensePage">
+          <table id="dailyExpenseTable">
+            <!-- The daily expense analysis will be added here dynamically -->
+          </table>
+        </a>
         <p>Total Expenses: <span id="totalExpenses"></span></p>
-        <p> Daily Expense Average: <span id="averageExpense"></span></p>
+        <p>Daily Expense Average: <span id="averageExpense"></span></p>
       </div>
 
       <!-- Display Best and Least Selling Products -->
-    <div id="bestAndLeastSellingProducts">
-      <!-- Data from the getBestAndLeastSellingProducts function will be added here dynamically -->
-    </div>
-    
+      <div id="bestAndLeastSellingProducts">
+        <!-- Data from the getBestAndLeastSellingProducts function will be added here dynamically -->
+      </div>
     </div>
 
     <div class="container">
