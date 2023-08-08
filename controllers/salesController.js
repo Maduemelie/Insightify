@@ -78,19 +78,38 @@ const getDailySalesData = async () => {
   return dailySales;
 };
 
-//function to crate the daily sales analysis 
-const dailySalesAnalysis = catchAsync(async (req, res) => { 
+//function to crate the daily sales analysis
+const dailySalesAnalysis = catchAsync(async (req, res) => {
   const dailySales = await getDailySalesData();
   res.status(200).json({ dailySales });
-})
+});
+
+//function to get the profit analysis
+const profitAnalysis = catchAsync(async (req, res) => {
+  const dailySales = await getDailySalesData();
+  
+  const profitByDay = dailySales.reduce((result, sale) => {
+    const date = sale.saleDate;
+    if (!result[date]) {
+      result[date] = {
+        totalProfit: 0,
+      };
+    }
+    result[date].totalProfit += sale.totalProfit;
+    return result;
+  }, {});
+  
+  res.status(200).json({ profitByDay });
+});
+
 
 //function to render the daily sales page
-const renderDailySalesPage = catchAsync(async (req, res) => { 
+const renderDailySalesPage = catchAsync(async (req, res) => {
   const dailySales = await getDailySalesData();
   res.status(200).render("incomeDailySaleData", { dailySales });
 });
 //function to get the best and least selling products
-const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
+const getBestAndLeastSellingProducts = catchAsync(async (req, res) => {
   const bestSellingProduct = await Sales.aggregate([
     {
       $group: {
@@ -99,13 +118,12 @@ const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
       },
     },
     {
-      $sort: { totalQuantitySold: -1 }, 
+      $sort: { totalQuantitySold: -1 },
     },
     {
       $limit: 1, // Get only the top product
     },
   ]);
-
   const leastSellingProduct = await Sales.aggregate([
     {
       $group: {
@@ -120,13 +138,23 @@ const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
       $limit: 1, // Get only the top product
     },
   ]);
-
   const products = [];
 
   if (bestSellingProduct.length > 0) {
     const bestProductId = bestSellingProduct[0]._id;
     const bestSellingProductDetails = await Product.findById(bestProductId);
-    products.push({ type: "Best Selling", details: bestSellingProductDetails });
+    products.push({
+      type: "Best Selling",
+      details: bestSellingProductDetails,
+      quantitySold: bestSellingProduct[0].totalQuantitySold,
+      revenue:
+        bestSellingProductDetails.sellingPrice *
+        bestSellingProduct[0].totalQuantitySold,
+      profit:
+        (bestSellingProductDetails.sellingPrice -
+          bestSellingProductDetails.costPrice) *
+        bestSellingProduct[0].totalQuantitySold,
+    });
   }
 
   if (leastSellingProduct.length > 0) {
@@ -135,10 +163,87 @@ const getBestAndLeastSellingProducts = catchAsync(async (req,res) => {
     products.push({
       type: "Least Selling",
       details: leastSellingProductDetails,
+      quantitySold: leastSellingProduct[0].totalQuantitySold,
+      revenue:
+        leastSellingProductDetails.sellingPrice *
+        leastSellingProduct[0].totalQuantitySold,
+      profit:
+        (leastSellingProductDetails.sellingPrice -
+          leastSellingProductDetails.costPrice) *
+        leastSellingProduct[0].totalQuantitySold,
     });
   }
- res.status(200).json({ products });
-  // return products;
+  // console.log(products);
+  res.status(200).json({ products });
+});
+
+const getAllProductsBySales = catchAsync(async (req, res) => {
+  const products = await Sales.aggregate([
+    {
+      $group: {
+        _id: "$product",
+        totalQuantitySold: { $sum: "$quantity" },
+      },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "_id",
+        foreignField: "_id",
+        as: "productDetails",
+      },
+    },
+    {
+      $unwind: "$productDetails",
+    },
+    {
+      $project: {
+        _id: 0,
+        productName: "$productDetails.productName",
+        costPrice: "$productDetails.costPrice",
+        sellingPrice: "$productDetails.sellingPrice",
+        totalQuantitySold: 1,
+        revenue: {
+          $multiply: ["$productDetails.sellingPrice", "$totalQuantitySold"],
+        },
+        profit: {
+          $multiply: [
+            {
+              $subtract: [
+                "$productDetails.sellingPrice",
+                "$productDetails.costPrice",
+              ],
+            },
+            "$totalQuantitySold",
+          ],
+        },
+      },
+    },
+    {
+      $sort: { totalQuantitySold: -1 }, // Sort by totalQuantitySold in descending order
+    },
+  ]);
+  // Calculate total revenue and total profit
+  const totalRevenue = products.reduce(
+    (sum, product) => sum + product.revenue,
+    0
+  );
+  const totalProfit = products.reduce(
+    (sum, product) => sum + product.profit,
+    0
+  );
+
+  // Find the best selling and least selling products
+  const bestSellingProduct = products[0];
+  const leastSellingProduct = products[products.length - 1];
+
+  res.render("income_bestAndLeast", {
+    products,
+    totalRevenue,
+    totalProfit,
+    bestSellingProduct,
+    leastSellingProduct,
+  });
 });
 
 module.exports = {
@@ -146,4 +251,6 @@ module.exports = {
   dailySalesAnalysis,
   getBestAndLeastSellingProducts,
   renderDailySalesPage,
+  getAllProductsBySales,
+  profitAnalysis,
 };

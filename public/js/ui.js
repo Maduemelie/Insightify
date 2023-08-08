@@ -1,11 +1,15 @@
+import helper from "./helper.js";
+
 //function to crate the daily sales analysis table
 const dailySalesAnalysis = async () => {
   try {
     const response = await fetch("/api/v1/sales/dailySales");
     const data = await response.json();
+    
     console.log(data);
     if (data.dailySales && data.dailySales.length > 0) {
       const dailySalesTable = document.getElementById("dailySalesTable");
+      const recentSales =helper.getMostRecentDocuments(data.dailySales, 3);
 
       // Create the table header row
       const tableHeader = document.createElement("tr");
@@ -14,9 +18,9 @@ const dailySalesAnalysis = async () => {
       dailySalesTable.appendChild(tableHeader);
 
       // Loop through the dailySales data and create table rows
-      data.dailySales.forEach((item) => {
+      recentSales.forEach((item) => {
         const tableRow = document.createElement("tr");
-        tableRow.innerHTML = `<td>${item.product}</td><td>${item.saleDate}</td><td>${item.totalAmount}</td>`;
+        tableRow.innerHTML = `<td>${item.product}</td><td>${item.saleDate}</td><td>₦${item.totalAmount}</td>`;
         dailySalesTable.appendChild(tableRow);
       });
 
@@ -32,7 +36,7 @@ const dailySalesAnalysis = async () => {
         0
       );
 
-      totalSales.innerHTML = `$${totalAmount}`;
+      totalSales.innerHTML = `₦${totalAmount}`;
       totalProduct.innerHTML = `${totalProductSold}`;
     }
   } catch (error) {
@@ -49,7 +53,7 @@ const dailyExpenseAnalysis = async () => {
     console.log(data.dailyExpenses);
     if (data.dailyExpenses && data.dailyExpenses.length > 0) {
       const dailyExpenseTable = document.getElementById("dailyExpenseTable");
-
+const recentExpenses = helper.getMostRecentDocuments(data.dailyExpenses, 3);
       // Create the table header row
       const tableHeader = document.createElement("tr");
       tableHeader.innerHTML =
@@ -57,9 +61,9 @@ const dailyExpenseAnalysis = async () => {
       dailyExpenseTable.appendChild(tableHeader);
 
       // Loop through the dailyExpenses data and create table rows
-      data.dailyExpenses.forEach((item) => {
+      recentExpenses.forEach((item) => {
         const tableRow = document.createElement("tr");
-        tableRow.innerHTML = `<td>${item.expenseType}</td><td>${item.date}</td><td>${item.totalAmount}</td>`;
+        tableRow.innerHTML = `<td>${item.expenseType}</td><td>${item.date}</td><td>₦${item.totalAmount}</td>`;
         dailyExpenseTable.appendChild(tableRow);
       });
       //additional information on expenses
@@ -70,7 +74,7 @@ const dailyExpenseAnalysis = async () => {
         (total, item) => total + item.totalAmount,
         0
       );
-      totalExpenses.innerHTML = `$${totalExpenseAmount}`;
+      totalExpenses.innerHTML = `₦${totalExpenseAmount}`;
 
       // Calculate the total expense amount and total number of expenses
       totalExpenseAmount = 0;
@@ -86,7 +90,7 @@ const dailyExpenseAnalysis = async () => {
 
       // Display the average expense amount
       const averageExpenseElement = document.getElementById("averageExpense");
-      averageExpenseElement.textContent = ` $${averageExpense.toFixed(2)}`;
+      averageExpenseElement.textContent = ` ₦${averageExpense.toFixed(2)}`;
     }
   } catch (error) {
     console.error("Error fetching daily expense data:", error);
@@ -94,62 +98,66 @@ const dailyExpenseAnalysis = async () => {
 };
 
 // Function to create the profit chart
-function createProfitChart(dailyProfits) {
+const createProfitChart = async () => {
   const chartContainer = document.getElementById("profitchart-container");
-  const chartContainerWidth = chartContainer.clientWidth; // Get the width of the container
-  const chartWidth = chartContainerWidth * 0.4; // Set the chart width to 20% of the container width
-
-  // Set the height of the container based on the width to maintain the aspect ratio
-  const chartHeight = chartWidth * 1.2;
-
-  // Set the width and height of the chart container
-  chartContainer.style.width = chartWidth + "px";
-  chartContainer.style.height = chartHeight + "px";
-
   const profitChartCanvas = document.getElementById("profitChart");
-  profitChartCanvas.width = chartWidth;
-  profitChartCanvas.height = chartHeight;
-  const profitChart = new Chart(profitChartCanvas, {
-    type: "line", // You can use "line" for a line chart or "area" for an area chart
-    data: {
-      // Update the labels array for 30 days
-      labels: Array.from({ length: 10 }, (_, index) => `Day ${index + 1}`),
-      datasets: [
-        {
-          label: "Daily Profit",
-          data: dailyProfits, // Array of profit values for each day
-          borderColor: "rgba(75, 192, 192, 1)", // Color of the line
-          backgroundColor: "rgba(75, 192, 192, 0.2)", // Color of the area under the line (for area chart)
-        },
-      ],
-    },
-    options: {
-      tooltips: {
-        callbacks: {
-          label: (tooltipItem) => `Profit: $${tooltipItem.yLabel}`, // Tooltip label to display the profit value
-        },
+
+  try {
+    const response = await fetch("/api/v1/sales/profitAnalysis");
+    const data = await response.json();
+    const profitByDay = data.profitByDay; // Assuming the API response is an object with profit data by day
+   
+    // Extract the profit values from the profitByDay object
+    const dailyProfits = Object.values(profitByDay).map(
+      (day) => day.totalProfit
+    );
+
+    const profitChart = new Chart(profitChartCanvas, {
+      type: "line", // You can use "line" for a line chart or "area" for an area chart
+      data: {
+        // Update the labels array based on the number of days
+        labels: Object.keys(profitByDay),
+        datasets: [
+          {
+            label: "Daily Profit",
+            data: dailyProfits, // Array of profit values for each day
+            borderColor: "rgba(75, 192, 192, 1)", // Color of the line
+            backgroundColor: "rgba(75, 192, 192, 0.2)", // Color of the area under the line (for area chart)
+          },
+        ],
       },
-      responsive: true,
-      maintainAspectRatio: false, // Set this to false to allow the chart to dynamically resize based on container size
-      scales: {
-        x: {
-          display: true,
-          title: {
-            display: true,
-            text: "Day", // X-axis title
+      options: {
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem) => `Profit: ₦${tooltipItem.yLabel}`, // Tooltip label to display the profit value
           },
         },
-        y: {
-          display: true,
-          title: {
+        responsive: true,
+        maintainAspectRatio: false, // Set this to false to allow the chart to dynamically resize based on container size
+        scales: {
+          x: {
             display: true,
-            text: "Profit ($)", // Y-axis title
+            title: {
+              display: true,
+              text: "Day", // X-axis title
+            },
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: "Profit (₦)", // Y-axis title
+            },
           },
         },
       },
-    },
-  });
-}
+    });
+  } catch (error) {
+    console.error("Error creating profit chart:", error);
+    // Handle the error, such as displaying a message to the user
+  }
+};
+
 //function to create best selling and least selling products
 const bestAndLeastSellingProductsDiv = document.getElementById(
   "bestAndLeastSellingProducts"
@@ -168,14 +176,22 @@ const fetchAndDisplayBestAndLeastSellingProducts = async () => {
       const productsList = products
         .map(
           (product) => `
-            <p>${product.type}: ${product.details.productName}</p>
+            <div>
+              <h2>${product.type}:</h2>
+              <p>Product Name: ${product.details.productName}</p>
+              <p>Quantity Sold: ${product.quantitySold}</p>
+              <p>Total Revenue: ₦${product.revenue}</p>
+              <p>Total Profit: ₦${product.profit}</p>
+            </div>
           `
         )
         .join("");
       console.log(productsList);
       bestAndLeastSellingProductsDiv.innerHTML = `
-            <h2>Best and Least Selling Products:</h2>
-            ${productsList}
+            <div>
+              <h2>Best and Least Selling Products:</h2>
+              ${productsList}
+            </div>
           `;
       console.log(bestAndLeastSellingProductsDiv);
     } else {
