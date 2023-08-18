@@ -1,15 +1,17 @@
 import helper from "./helper.js";
+// import {ejs} from "ejs";
 
 //function to crate the daily sales analysis table
 const dailySalesAnalysis = async () => {
   try {
     const response = await fetch("/api/v1/sales/dailySales");
     const data = await response.json();
-    
+
     console.log(data);
     if (data.dailySales && data.dailySales.length > 0) {
       const dailySalesTable = document.getElementById("dailySalesTable");
-      const recentSales =helper.getMostRecentDocuments(data.dailySales, 3);
+      const recentSales = helper.getMostRecentDocuments(data.dailySales, 3);
+      console.log(recentSales);
 
       // Create the table header row
       const tableHeader = document.createElement("tr");
@@ -53,7 +55,10 @@ const dailyExpenseAnalysis = async () => {
     console.log(data.dailyExpenses);
     if (data.dailyExpenses && data.dailyExpenses.length > 0) {
       const dailyExpenseTable = document.getElementById("dailyExpenseTable");
-const recentExpenses = helper.getMostRecentDocuments(data.dailyExpenses, 3);
+      const recentExpenses = helper.getMostRecentDocuments(
+        data.dailyExpenses,
+        3
+      );
       // Create the table header row
       const tableHeader = document.createElement("tr");
       tableHeader.innerHTML =
@@ -106,7 +111,7 @@ const createProfitChart = async () => {
     const response = await fetch("/api/v1/sales/profitAnalysis");
     const data = await response.json();
     const profitByDay = data.profitByDay; // Assuming the API response is an object with profit data by day
-   
+
     // Extract the profit values from the profitByDay object
     const dailyProfits = Object.values(profitByDay).map(
       (day) => day.totalProfit
@@ -206,11 +211,10 @@ const fetchAndDisplayBestAndLeastSellingProducts = async () => {
   }
 };
 
-// Fetch and display Best and Least Selling Products data
-
 export default {
   createProfitChart,
   dailySalesAnalysis,
   dailyExpenseAnalysis,
   fetchAndDisplayBestAndLeastSellingProducts,
+  // fetchAndDisplayExpensesPageUi,
 };

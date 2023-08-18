@@ -49,5 +49,58 @@
     "address": "222 Pine Road, Countryside",
     "birthDate": "1988-12-07",
     "gender": "Male"
+  },
+  {
+    "firstName": "Ava",
+    "lastName": "Taylor",
+    "email": "ava.taylor@example.com",
+    "phone": "1231231234",
+    "address": "789 Elm Street, Cityville",
+    "companyName": "XYZ Inc",
+    "birthDate": "1993-09-25",
+    "gender": "Female",
+    "notes": "Regular customer"
+  },
+  {
+    "firstName": "James",
+    "lastName": "Miller",
+    "email": "james.miller@example.com",
+    "phone": "9879879876",
+    "address": "456 Oak Avenue, Townsville",
+    "companyName": "ABC Corp",
+    "birthDate": "1991-02-15",
+    "gender": "Male",
+    "notes": "VIP customer"
+  },
+  {
+    "firstName": "Sophia",
+    "lastName": "Clark",
+    "email": "sophia.clark@example.com",
+    "phone": "5555551234",
+    "address": "101 Maple Lane, Villageland",
+    "birthDate": "1997-07-10",
+    "gender": "Female",
+    "notes": "New customer"
+  },
+  {
+    "firstName": "Ethan",
+    "lastName": "Johnson",
+    "email": "ethan.johnson@example.com",
+    "phone": "7777779876",
+    "address": "222 Pine Road, Suburbia",
+    "companyName": "PQR Ltd",
+    "birthDate": "1989-11-02",
+    "gender": "Male",
+    "notes": "Regular customer"
+  },
+  {
+    "firstName": "Olivia",
+    "lastName": "White",
+    "email": "olivia.white@example.com",
+    "phone": "4444441234",
+    "address": "333 Oak Avenue, Countryside",
+    "birthDate": "1994-06-12",
+    "gender": "Female",
+    "notes": "VIP customer"
   }
 ]

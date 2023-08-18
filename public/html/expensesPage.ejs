@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Expense Tracking</title>
+  </head>
+  <link rel="stylesheet" href="/css/expensePage.css" />
+  <body>
+    <h1>Expense Tracking</h1>
+
+    <!-- Sorting Options -->
+    <label for="sort">Sort By:</label>
+    <select id="sort">
+      <option value="date">Date</option>
+      <option value="amount">Amount</option>
+    </select>
+
+    <!-- Filter Options -->
+    <label for="filter">Filter By:</label>
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="day">Day</option>
+      <option value="week">Week</option>
+      <option value="month">Month</option>
+      <option value="year">Year</option>
+    </select>
+
+    <button id="apply">Apply</button>
+
+    <!-- Display Expense Data -->
+    <table id="expenseTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Expense Type</th>
+          <th>Additional Info</th>
+        </tr>
+      </thead>
+      <tbody id="expenseData">
+        <% expenses.forEach(expense => { %>
+        <tr>
+          <td><%= expense.date %></td>
+          <td><%= expense.description %></td>
+          <td><%= expense.amount %></td>
+          <td><%= expense.__t %></td>
+          <td>
+            <% if (expense.__t === 'Delivery') { %> Recipient: <%=
+            expense.recipientName %> <% } else if (expense.__t === 'Advert') {
+            %> Platform: <%= expense.platform %> <% } else if (expense.__t ===
+            'ItemPurchase') { %> Item: <%= expense.itemName %>, Quantity: <%=
+            expense.quantity %>, Unit Price: <%= expense.unitPrice %> <% } %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div id="pagination">
+      <% if (currentPage > 1) { %>
+      <!-- If not on the first page, show a previous button -->
+      <a href="/api/v1/expenses?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+
+      <!-- Show the current page number -->
+      <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+      <% if (currentPage < totalPages) { %>
+      <!-- If not on the last page, show a next button -->
+      <a href="/api/v1/expenses?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </div>
+    
+    <script type="module" src="/js/expensePage.js"></script>
+  </body>
+</html>
