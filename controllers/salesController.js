@@ -74,13 +74,14 @@ const getDailySalesData = async () => {
       },
     },
   ]);
-
+// console.log(dailySales);
   return dailySales;
 };
 
 //function to crate the daily sales analysis
 const dailySalesAnalysis = catchAsync(async (req, res) => {
   const dailySales = await getDailySalesData();
+  console.log(dailySales);
   res.status(200).json({ dailySales });
 });
 

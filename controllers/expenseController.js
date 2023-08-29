@@ -77,7 +77,7 @@ const getdailyExpenseAnalysis = async () => {
       },
     },
   ]);
-
+console.log(dailyExpenses);
   return dailyExpenses;
 };
 
@@ -90,8 +90,10 @@ const dailyExpenseAnalysis = catchAsync(async (req, res) => {
 
 const displayDailyExpensePage = catchAsync(async (req, res) => {
   const dailyExpenses = await getdailyExpenseAnalysis();
+  console.log(dailyExpenses);
   res.status(200).render("expense_DailyExpense", {
     title: "Daily Expense Analysis",
+   
     dailyExpenses,
   });
 });
@@ -99,7 +101,7 @@ const displayDailyExpensePage = catchAsync(async (req, res) => {
 const generateExpensePageData = catchAsync(async (req, res) => {
   let query = {};
   const page = parseInt(req.query.page) || 1; // Default to page 1 if no page query parameter
-  const limit = 3; // Number of expenses per page
+  const limit = 10; // Number of expenses per page
   const sortOption = req.query.sort || 'date'; // Default to 'date'
   const filterOption = req.query.filter || 'all'; // Default to 'all'
 

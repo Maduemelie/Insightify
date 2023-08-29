@@ -16,16 +16,13 @@ app.set("views", path.join(__dirname, "public", "html"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
-
-
-
-
 app.use("/api/v1/sales", salesRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/expenses", expenseRouter);
 app.use("/api/v1/returns", returnRouter);
+
+
 app.get("/", (req, res) => {
   res.render("Dailypage");
 });
