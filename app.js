@@ -7,7 +7,7 @@ const customerRouter = require("./routes/customerRoute");
 const productRouter = require("./routes/productRoute");
 const expenseRouter = require("./routes/expenseRoute");
 const returnRouter = require("./routes/returnRoute");
-
+const authRouter = require("./routes/authUserRoute");
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -21,6 +21,7 @@ app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/expenses", expenseRouter);
 app.use("/api/v1/returns", returnRouter);
+app.use("/api/v1/auth", authRouter);
 
 
 app.get("/", (req, res) => {
