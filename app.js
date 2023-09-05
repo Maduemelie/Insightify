@@ -8,11 +8,28 @@ const productRouter = require("./routes/productRoute");
 const expenseRouter = require("./routes/expenseRoute");
 const returnRouter = require("./routes/returnRoute");
 const authRouter = require("./routes/authUserRoute");
+const session = require('express-session');
+const passport = require('./config/passportConfig');
+
+
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "public", "html"));
+app.use(
+  session({
+    // Set up express-session middleware
+    secret: process.env.MY_SESSION_SECERT,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
