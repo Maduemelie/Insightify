@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profilePicture : {
+    data: Buffer,
+    contentType: String
+  },
 });
 
 userSchema.pre('save', async function (next) {

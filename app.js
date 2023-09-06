@@ -10,6 +10,7 @@ const returnRouter = require("./routes/returnRoute");
 const authRouter = require("./routes/authUserRoute");
 const session = require('express-session');
 const passport = require('./config/passportConfig');
+const multer = require('multer');
 
 
 const app = express();
