@@ -16,8 +16,16 @@ const signUp = async (req, res) => {
         console.log('Error logging in user:', err);
         return next(err);
       }
-      console.log('User created');
-      return res.status(201).json({ message: 'User created' });
+      // console.log('User created');
+       const { _id, username, email } = user;
+       
+      return res
+        .status(201)
+        .json({
+          message: 'User created',
+          user: { _id, username, email },
+          isLoggedIn: true,
+        });
     });
   } catch (error) {
     console.log('Something went wrong:', error);
@@ -40,8 +48,12 @@ const login = async (req, res, next) => {
         if (err) {
           throw err;
         }
-        const { _id, username, email } = user;
-        res.json({ user: { _id, username, email }, isLoggedIn: true });
+        const { _id, username, email, profilePicture } = user;
+        console.log(req.user)
+        res.json({
+          user: { _id, username, email, profilePicture },
+          isLoggedIn: true,
+        });
       });
     })(req, res, next);
   } catch (error) {

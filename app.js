@@ -10,7 +10,7 @@ const returnRouter = require("./routes/returnRoute");
 const authRouter = require("./routes/authUserRoute");
 const session = require('express-session');
 const passport = require('./config/passportConfig');
-const multer = require('multer');
+const uploadRouter = require('./routes/uploadProfileRoute');
 
 
 const app = express();
@@ -40,6 +40,7 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/expenses", expenseRouter);
 app.use("/api/v1/returns", returnRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/upload", uploadRouter);
 
 
 app.get("/", (req, res) => {
