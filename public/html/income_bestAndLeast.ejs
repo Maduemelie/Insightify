@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Products by Sales</title>
+    <link rel="stylesheet" href="/css/bestAndLeast.css">
+    <!-- Include your CSS and other styles here -->
+  </head>
+  <body>
+    <header>
+        <!-- Logo for the App -->
+        <div>
+          <img
+            src="\img\_1ac97b4a-3be5-4280-9346-dc4cc9606830.jpeg"
+            alt="Insightify Logo"
+          />
+        </div>
+  
+        <!-- Navigation Bar -->
+        <nav>
+          <ul>
+            <li><a href="/expense">Expense</a></li>
+            <li><a href="/income">Income</a></li>
+            <li><a href="/profit-analysis">Profit Analysis</a></li>
+            <li><a href="/products">Products</a></li>
+          </ul>
+        </nav>
+      </header>
+
+    <h1>All Products by Sales</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Cost Price</th>
+          <th>Selling Price</th>
+          <th>Total Quantity Sold</th>
+          <th>Revenue</th>
+          <th>Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(product => { %>
+        <tr>
+          <td><%= product.productName %></td>
+          <td><%= product.costPrice %></td>
+          <td><%= product.sellingPrice %></td>
+          <td><%= product.totalQuantitySold %></td>
+          <td><%= product.revenue %></td>
+          <td><%= product.profit %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <p>Total Revenue: <%= totalRevenue %></p>
+    <p>Total Profit: <%= totalProfit %></p>
+    <p>Best Selling Product: <%= bestSellingProduct.productName %></p>
+    <p>Least Selling Product: <%= leastSellingProduct.productName %></p>
+
+    <!-- Additional insights and styling can be added as needed -->
+  </body>
+</html>

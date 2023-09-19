@@ -1,0 +1,43 @@
+
+[
+  {
+    "productName": "High Fast Charging Cable Type C to C",
+    "costPrice": 5,
+    "sellingPrice": 10,
+    "category": "Electronics",
+    "quantity": 100,
+    "description": "High-speed charging cable for Type C to C devices",
+    "imageUrl": "https://example.com/cable_image.jpg",
+    "inStock": true
+  },
+  {
+    "productName": "20W USB Charger PD Fast",
+    "costPrice": 8,
+    "sellingPrice": 15,
+    "category": "Electronics",
+    "quantity": 50,
+    "description": "Fast USB charger with Power Delivery support",
+    "imageUrl": "https://example.com/usb_charger_image.jpg",
+    "inStock": true
+  },
+  {
+    "productName": "6 USB Charging Station Dock",
+    "costPrice": 20,
+    "sellingPrice": 35,
+    "category": "Electronics",
+    "quantity": 30,
+    "description": "Charging station with 6 USB ports",
+    "imageUrl": "https://example.com/charging_station_image.jpg",
+    "inStock": true
+  },
+  {
+    "productName": "iPhone Charger 25W",
+    "costPrice": 10,
+  
+    "category": "Electronics",
+    "quantity": 100,
+    "description": "Fast charger for iPhones with 25W power output",
+    "imageUrl": "https://example.com/iphone_charger_image.jpg",
+    "inStock": true
+  }
+]
