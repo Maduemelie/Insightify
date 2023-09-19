@@ -1,4 +1,16 @@
 import element from "../js/element.js";
+import ui from "../js/ui.js";
+
+// Usage: Call the function with your actual array of daily profit data
+// Function to generate a random number between min and max (inclusive)
+
+
+ui.dailyExpenseAnalysis();
+ui.dailySalesAnalysis();
+ui.createProfitChart();
+document.addEventListener("DOMContentLoaded", () => {
+  ui.fetchAndDisplayBestAndLeastSellingProducts();
+});
 
 // Add event listener to the "Add New Sales" button
 const addNewSalesButton = document.getElementById("addNewSalesButton");

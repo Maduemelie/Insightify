@@ -11,20 +11,29 @@ const productSchema = new mongoose.Schema({
   },
   sellingPrice: {
     type: Number,
-    required: true,
+    default: function() {
+      // Default selling price can be calculated based on costPrice
+      return this.costPrice * 2; // Selling price is twice the cost price
+    },
+    validate: {
+      validator: function(value) {
+        // Custom validator to ensure sellingPrice is not less than costPrice
+        return value >= this.costPrice;
+      },
+      message: 'Selling price cannot be less than cost price.',
+    },
   },
-  // shipment: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Shipment',
-  //   required: true,
-  // },
   category: {
     type: String,
     required: true,
   },
-  quantity: {
+  stockQuantity: {
     type: Number,
     required: true,
+  },
+  totalQuantitySold: {
+    type: Number,
+    default: 0,
   },
   description: {
     type: String,
@@ -39,11 +48,7 @@ const productSchema = new mongoose.Schema({
     default: true,
   },
 });
-// Define a virtual field "profit" to calculate the profit dynamically
-productSchema.virtual('profit').get(function () {
-    return this.sellingPrice - this.costPrice;
-  });
-  
+
 
 const Product = mongoose.model('Product', productSchema);
 

@@ -4,10 +4,10 @@ const Expense = require('./expenseModel');
 
 const deliverySchema = new Schema({
   // Additional fields specific to the delivery type
-  deliveryDate: {
-    type: Date,
-    required: true,
-  },
+  // deliveryDate: {
+  //   type: Date,
+  //   required: true,
+  // },
   recipientName: {
     type: String,
     required: true,

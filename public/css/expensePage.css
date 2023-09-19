@@ -1,0 +1,83 @@
+/* Primary colors */
+:root {
+  --primary-dark-blue: #1d3d59;
+  --primary-light-blue: #7aadd5;
+  --primary-orange: #d55e00;
+  --primary-yellow: #f2c849;
+}
+
+/* Background colors */
+body {
+  background: linear-gradient(to bottom, #fdfcf1, #c1d8eb);
+}
+
+/* Button styles */
+button {
+  background: linear-gradient(to right, #19344d, #0469ce);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0469ce, #19344d);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fdfcf1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #7aadd5;
+}
+
+thead th {
+  background-color: #0469ce;
+  color: #f2c849;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #c1d8eb;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #d55e00;
+  color: #fdfcf1;
+}
+/* Header styles */
+h1 {
+  color: #0469ce;
+}
+
+/* Text styles */
+p {
+  color: #19344d;
+}
+
+/* Sort and Filter styles */
+label,
+select {
+  margin-right: 10px;
+}
+
+#apply {
+  background: linear-gradient(to right, #19344d, #0469ce);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+#apply:hover {
+  background: linear-gradient(to right, #0469ce, #19344d);
+}

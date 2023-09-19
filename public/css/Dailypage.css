@@ -102,20 +102,17 @@ select option {
   display: none; /* Hide the form by default */
 }
 
-/*  
- #advertForm {
-  display: none; 
+/* Add custom styles for the chart container and canvas */
+.chart-container {
+  width: 100%;
+  height: 200px; /* Reduce the height to make the chart smaller */
+  overflow: hidden;
 }
 
-
-#deliveryForm {
-  display: none; 
+canvas#profitChart {
+  width: 100%; /* Set the width to 100% of the container */
+  height: 100%; /* Allow the height to adjust proportionally based on the width */
 }
-
-
-#itemPurchaseForm {
-  display: none; 
-} */
 
 /* Shared Styles for All Forms */
 form {
@@ -169,5 +166,147 @@ button:hover {
   #returnsSection {
     min-width: auto; /* Remove the minimum width on small screens */
     margin-bottom: 20px;
+  }
+}
+
+/* Styles for the #inforgraphics container */
+#inforgraphics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2px;
+  background-color: #fdfcf1;
+  padding: 2px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 200px; /* Set a maximum height for the container */
+}
+/* Reset default styles for anchor links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Apply color change on hover */
+a:hover {
+  color: #19344d;
+}
+
+/* Styles for individual infographics */
+#profitchart-container,
+#dailySalesAnalysis,
+#dailyExpenseAnalysis,
+#bestAndLeastSellingProducts {
+  flex: 1;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fdfcf1;
+  overflow: hidden; /* Hide any overflowing content */
+  display: flex; /* Use flexbox to allow content to wrap */
+  flex-wrap: wrap; /* Wrap the content inside the div */
+  gap: 10px; /* Add a gap between the divs */
+  margin-bottom: 3px;
+  max-height: 185px;
+}
+
+/* Styles for the profit hart canvas */
+#profitchart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styles for the daily sales data */
+#dailySalesAnalysis h2,
+#dailyExpenseAnalysis h2,
+#bestAndLeastSellingProducts h2 {
+  color: #1d3d59;
+  margin-bottom: 0px;
+  font-size: 9px;
+}
+
+#dailySalesTable,
+#dailyExpenseTable {
+  flex-basis: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 3px;
+  background-color: #fdfcf1;
+  border: 1px solid #7aadd5;
+  overflow: auto;
+  font-size: 9px;
+}
+
+#dailySalesTable th,
+#dailyExpenseTable th,
+#dailySalesTable td,
+#dailyExpenseTable td {
+  padding: 5px;
+  font-size: 8px;
+  border: 1px solid #7aadd5;
+}
+
+#dailySalesTable th,
+#dailyExpenseTable th {
+  background-color: #0469ce;
+  color: #f2c849;
+  font-size: 10px; /* Adjust the font size for the table headers */
+  font-weight: bold;
+}
+
+#dailySalesTable tr:nth-child(even),
+#dailyExpenseTable tr:nth-child(even) {
+  background-color: #c1d8eb;
+}
+
+#dailySalesTable tr:nth-child(odd),
+#dailyExpenseTable tr:nth-child(odd) {
+  background-color: #d55e00;
+  color: #fdfcf1;
+}
+
+/* Styles for the additional infographics */
+#dailySalesAnalysis p,
+#dailyExpenseAnalysis p,
+#bestAndLeastSellingProducts p {
+  margin: 0; /* Remove default margin to prevent spacing */
+  font-size: 10px;
+}
+
+#dailySalesAnalysis span,
+#dailyExpenseAnalysis span {
+  color: #0469ce;
+  font-weight: bold;
+  /* font-size: 10px; */
+}
+
+/* footer section */
+footer {
+  background: linear-gradient(to right, #d55e00, #0469ce);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-content a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
   }
 }
