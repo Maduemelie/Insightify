@@ -17,15 +17,13 @@ const signUp = async (req, res) => {
         return next(err);
       }
       // console.log('User created');
-       const { _id, username, email } = user;
-       
-      return res
-        .status(201)
-        .json({
-          message: 'User created',
-          user: { _id, username, email },
-          isLoggedIn: true,
-        });
+      const { _id, username, email } = user;
+
+      return res.status(201).json({
+        message: 'User created',
+        user: { _id, username, email },
+        isLoggedIn: true,
+      });
     });
   } catch (error) {
     console.log('Something went wrong:', error);
@@ -49,7 +47,7 @@ const login = async (req, res, next) => {
           throw err;
         }
         const { _id, username, email, profilePicture } = user;
-        console.log(req.user)
+        console.log(req.user);
         res.json({
           user: { _id, username, email, profilePicture },
           isLoggedIn: true,
