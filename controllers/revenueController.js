@@ -1,7 +1,18 @@
 const Sales = require('../models/salesModel')
 
 exports.getRevenueData = async (req, res) => {
-  const { startDate, endDate } = req.query;
+   // Set the default start date to the current date
+  const startDate =
+    req.query.startDate || new Date().toISOString().split('T')[0];
+
+  // Calculate the end date as 7 days from the start date
+  const endDate =
+    req.query.endDate ||
+    (() => {
+      const end = new Date(startDate);
+      end.setDate(end.getDate() + 7);
+      return end.toISOString().split('T')[0];
+    })();
 
   try {
     const start = new Date(startDate);
@@ -48,7 +59,7 @@ exports.getRevenueData = async (req, res) => {
         totalRevenue: totalRevenue.length > 0 ? totalRevenue[0].total : 0,
       });
     }
-console.log(revenueData)
+    console.log(revenueData);
     res.status(200).json({ revenueData });
   } catch (error) {
     console.error('Error fetching data:', error);
