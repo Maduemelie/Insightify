@@ -1,109 +1,57 @@
-const Sales = require('../models/salesModel');
-const Expense = require('../models/expenseModel');
+const Sales = require('../models/salesModel')
 
+exports.getRevenueData = async (req, res) => {
+  const { startDate, endDate } = req.query;
 
-const fetchDataForIntervals = async (req, res) => {
- const { startDate, endDate, interval } = req.query;
   try {
-    const getAggregateData = async (
-      collection,
-      startDate,
-      endDate,
-      fieldName
-    ) => {
-      const pipeline = [
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Calculate the date 7 days ago from the start date
+    const sevenDaysAgo = new Date(start);
+    sevenDaysAgo.setDate(start.getDate() - 7);
+
+    // Create an array of date objects for the last 7 days
+    const dateArray = [];
+    let currentDate = new Date(sevenDaysAgo);
+    while (currentDate <= end) {
+      dateArray.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // Fetch revenue data for each day in the date array
+    const revenueData = [];
+
+    for (const date of dateArray) {
+      const nextDate = new Date(date);
+      nextDate.setDate(date.getDate() + 1);
+
+      const totalRevenue = await Sales.aggregate([
         {
           $match: {
-            date: {
-              $gte: startDate,
-              $lte: endDate,
+            saleDate: {
+              $gte: date,
+              $lt: nextDate,
             },
           },
         },
         {
           $group: {
             _id: null,
-            totalAmount: { $sum: `$${fieldName}` },
+            total: { $sum: '$totalAmount' },
           },
         },
-        {
-          $project: {
-            _id: 0,
-            totalAmount: 1,
-          },
-        },
-      ];
+      ]);
 
-      return await collection.aggregate(pipeline);
-    };
-
-    const getDateRangeData = async (
-      collection,
-      startDate,
-      endDate,
-      fieldName,
-      dateIncrement
-    ) => {
-      const data = {};
-      let currentDate = new Date(startDate);
-
-      while (currentDate <= endDate) {
-        const rangeStart = new Date(currentDate);
-        rangeStart.setHours(0, 0, 0, 0);
-        const rangeEnd = new Date(currentDate);
-        rangeEnd.setHours(23, 59, 59, 999);
-        rangeEnd.setDate(rangeStart.getDate() + dateIncrement - 1);
-
-        const formattedRange = `${rangeStart.toISOString().split('T')[0]} - ${
-          rangeEnd.toISOString().split('T')[0]
-        }`;
-        const rangeData = await getAggregateData(
-          collection,
-          rangeStart,
-          rangeEnd,
-          fieldName
-        );
-
-        // Use null or an empty array if no data is found
-        data[formattedRange] =
-          rangeData.length > 0 ? rangeData[0].totalAmount : null; // Change to null or [] as needed
-
-        currentDate.setDate(currentDate.getDate() + dateIncrement);
-      }
-
-      return data;
-    };
-
-    
-
-        let data;
-
-    if (interval === 'daily') {
-      data = {
-        dailyRevenue: await getDateRangeData(Sales, startDate, endDate, 'totalAmount', 1),
-        dailyExpense: await getDateRangeData(Expense, startDate, endDate, 'amount', 1),
-      };
-    } else if (interval === 'weekly') {
-      data = {
-        weeklyRevenue: await getDateRangeData(Sales, startDate, endDate, 'totalAmount', 7),
-        weeklyExpense: await getDateRangeData(Expense, startDate, endDate, 'amount', 7),
-      };
-    } else if (interval === 'monthly') {
-      data = {
-        monthlyRevenue: await getDateRangeData(Sales, startDate, endDate, 'totalAmount', 30),
-        monthlyExpense: await getDateRangeData(Expense, startDate, endDate, 'amount', 30),
-      };
-    }else {
-      throw new Error('Invalid interval specified');
+      revenueData.push({
+        date: date.toISOString().split('T')[0],
+        totalRevenue: totalRevenue.length > 0 ? totalRevenue[0].total : 0,
+      });
     }
-
-    return data;
- 
-  
+console.log(revenueData)
+    res.status(200).json({ revenueData });
   } catch (error) {
     console.error('Error fetching data:', error);
-    throw error; // You can handle the error further up in your code
+    res.status(500).json({ error: 'An error occurred' });
   }
 };
-
-module.exports = { fetchDataForIntervals };

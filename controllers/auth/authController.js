@@ -47,7 +47,7 @@ const login = async (req, res, next) => {
           throw err;
         }
         const { _id, username, email, profilePicture } = user;
-        console.log(req.user);
+        // console.log(req.user);
         res.json({
           user: { _id, username, email, profilePicture },
           isLoggedIn: true,
