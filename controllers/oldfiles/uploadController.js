@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const User = require('../../models/userModel');
 const fs = require('fs');
 // const passport = require('passport');
 
@@ -10,8 +10,8 @@ const uploadProfilePicture = async (req, res) => {
 
   // Parse userData from the request body
   const userData = JSON.parse(req.body.userData);
-// console.log(userData);
-  const userId = userData._id; 
+  // console.log(userData);
+  const userId = userData._id;
 
   try {
     const user = await User.findById(userId);
@@ -28,8 +28,7 @@ const uploadProfilePicture = async (req, res) => {
     console.error('Error uploading image:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
-  }
+};
 //   )(req, res);
 // };
 

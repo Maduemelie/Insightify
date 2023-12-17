@@ -5,10 +5,16 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    min: 3,
+    max: 100,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    min: 3,
+    max: 100,
+    unique: true,
   },
   phone: {
     type: String,
@@ -17,12 +23,40 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    min: 6,
+  
   },
-  profilePicture : {
+  profilePicture: {
     data: Buffer,
-    contentType: String
+    contentType: String,
   },
-});
+  city: {
+    type: String,
+    required: true,
+
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+transactions: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Transaction',
+  }, 
+ 
+],
+ role: {
+    type: String,
+    enum: ['admin', 'user', 'superAdmin'],
+    default: 'Admin',
+
+  }
+}, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
