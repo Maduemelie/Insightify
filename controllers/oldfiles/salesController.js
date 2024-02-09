@@ -1,23 +1,23 @@
-const Sales = require("../models/salesModel");
-const Product = require("../models/productModel");
-const Customer = require("../models/customerModel");
-const catchAsync = require("../utils/catchAsync");
+const Sales = require('../../models/salesModel');
+const Product = require('../../models/productModel');
+const Customer = require('../../models/customerModel');
+const catchAsync = require('../../utils/catchAsync');
 
 const createNewSale = catchAsync(async (req, res) => {
   const { product, customer, ...rest } = req.body;
 
   // Split the customer name into first name and last name
-  const [firstName, lastName] = customer.split(" ");
+  const [firstName, lastName] = customer.split(' ');
 
   // Find the corresponding Product and Customer documents using their names
   const [foundProduct, foundCustomer] = await Promise.all([
-    Product.findOne({ productName: product }).select("_id"),
-    Customer.findOne({ firstName, lastName }).select("_id"),
+    Product.findOne({ productName: product }).select('_id'),
+    Customer.findOne({ firstName, lastName }).select('_id'),
   ]);
 
   // Ensure that both Product and Customer exist
   if (!foundProduct || !foundCustomer) {
-    return res.status(404).json({ error: "Product or Customer not found" });
+    return res.status(404).json({ error: 'Product or Customer not found' });
   }
 
   const sale = await Sales.create({
@@ -34,36 +34,36 @@ const getDailySalesData = async () => {
     {
       $group: {
         _id: {
-          product: "$product",
+          product: '$product',
           saleDate: {
-            $dateToString: { format: "%Y-%m-%d", date: "$saleDate" },
+            $dateToString: { format: '%Y-%m-%d', date: '$saleDate' },
           },
         },
-        totalAmount: { $sum: "$totalAmount" },
-        totalProfit: { $sum: "$profit" },
-        quantity: { $sum: "$quantity" },
+        totalAmount: { $sum: '$totalAmount' },
+        totalProfit: { $sum: '$profit' },
+        quantity: { $sum: '$quantity' },
       },
     },
     {
       $lookup: {
-        from: "products",
-        localField: "_id.product",
-        foreignField: "_id",
-        as: "productData",
+        from: 'products',
+        localField: '_id.product',
+        foreignField: '_id',
+        as: 'productData',
       },
     },
     {
-      $unwind: "$productData",
+      $unwind: '$productData',
     },
     {
       $project: {
         _id: 0,
-        product: "$productData.productName",
-        costPrice: "$productData.costPrice",
-        saleDate: "$_id.saleDate",
+        product: '$productData.productName',
+        costPrice: '$productData.costPrice',
+        saleDate: '$_id.saleDate',
         totalAmount: 1,
         quantity: 1,
-        unitPrice: "$productData.sellingPrice",
+        unitPrice: '$productData.sellingPrice',
         profit: 1,
         totalProfit: 1,
       },
@@ -74,7 +74,7 @@ const getDailySalesData = async () => {
       },
     },
   ]);
-// console.log(dailySales);
+  // console.log(dailySales);
   return dailySales;
 };
 
@@ -88,7 +88,7 @@ const dailySalesAnalysis = catchAsync(async (req, res) => {
 //function to get the profit analysis
 const profitAnalysis = catchAsync(async (req, res) => {
   const dailySales = await getDailySalesData();
-  
+
   const profitByDay = dailySales.reduce((result, sale) => {
     const date = sale.saleDate;
     if (!result[date]) {
@@ -99,23 +99,22 @@ const profitAnalysis = catchAsync(async (req, res) => {
     result[date].totalProfit += sale.totalProfit;
     return result;
   }, {});
-  
+
   res.status(200).json({ profitByDay });
 });
-
 
 //function to render the daily sales page
 const renderDailySalesPage = catchAsync(async (req, res) => {
   const dailySales = await getDailySalesData();
-  res.status(200).render("incomeDailySaleData", { dailySales });
+  res.status(200).render('incomeDailySaleData', { dailySales });
 });
 //function to get the best and least selling products
 const getBestAndLeastSellingProducts = catchAsync(async (req, res) => {
   const bestSellingProduct = await Sales.aggregate([
     {
       $group: {
-        _id: "$product",
-        totalQuantitySold: { $sum: "$quantity" },
+        _id: '$product',
+        totalQuantitySold: { $sum: '$quantity' },
       },
     },
     {
@@ -128,8 +127,8 @@ const getBestAndLeastSellingProducts = catchAsync(async (req, res) => {
   const leastSellingProduct = await Sales.aggregate([
     {
       $group: {
-        _id: "$product",
-        totalQuantitySold: { $sum: "$quantity" },
+        _id: '$product',
+        totalQuantitySold: { $sum: '$quantity' },
       },
     },
     {
@@ -145,7 +144,7 @@ const getBestAndLeastSellingProducts = catchAsync(async (req, res) => {
     const bestProductId = bestSellingProduct[0]._id;
     const bestSellingProductDetails = await Product.findById(bestProductId);
     products.push({
-      type: "Best Selling",
+      type: 'Best Selling',
       details: bestSellingProductDetails,
       quantitySold: bestSellingProduct[0].totalQuantitySold,
       revenue:
@@ -162,7 +161,7 @@ const getBestAndLeastSellingProducts = catchAsync(async (req, res) => {
     const leastProductId = leastSellingProduct[0]._id;
     const leastSellingProductDetails = await Product.findById(leastProductId);
     products.push({
-      type: "Least Selling",
+      type: 'Least Selling',
       details: leastSellingProductDetails,
       quantitySold: leastSellingProduct[0].totalQuantitySold,
       revenue:
@@ -182,40 +181,40 @@ const getAllProductsBySales = catchAsync(async (req, res) => {
   const products = await Sales.aggregate([
     {
       $group: {
-        _id: "$product",
-        totalQuantitySold: { $sum: "$quantity" },
+        _id: '$product',
+        totalQuantitySold: { $sum: '$quantity' },
       },
     },
     {
       $lookup: {
-        from: "products",
-        localField: "_id",
-        foreignField: "_id",
-        as: "productDetails",
+        from: 'products',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'productDetails',
       },
     },
     {
-      $unwind: "$productDetails",
+      $unwind: '$productDetails',
     },
     {
       $project: {
         _id: 0,
-        productName: "$productDetails.productName",
-        costPrice: "$productDetails.costPrice",
-        sellingPrice: "$productDetails.sellingPrice",
+        productName: '$productDetails.productName',
+        costPrice: '$productDetails.costPrice',
+        sellingPrice: '$productDetails.sellingPrice',
         totalQuantitySold: 1,
         revenue: {
-          $multiply: ["$productDetails.sellingPrice", "$totalQuantitySold"],
+          $multiply: ['$productDetails.sellingPrice', '$totalQuantitySold'],
         },
         profit: {
           $multiply: [
             {
               $subtract: [
-                "$productDetails.sellingPrice",
-                "$productDetails.costPrice",
+                '$productDetails.sellingPrice',
+                '$productDetails.costPrice',
               ],
             },
-            "$totalQuantitySold",
+            '$totalQuantitySold',
           ],
         },
       },
@@ -238,7 +237,7 @@ const getAllProductsBySales = catchAsync(async (req, res) => {
   const bestSellingProduct = products[0];
   const leastSellingProduct = products[products.length - 1];
 
-  res.render("income_bestAndLeast", {
+  res.render('income_bestAndLeast', {
     products,
     totalRevenue,
     totalProfit,

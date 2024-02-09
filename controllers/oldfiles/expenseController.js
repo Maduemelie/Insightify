@@ -1,8 +1,8 @@
-const Expense = require("../models/expenseModel");
-const catchAsync = require("../utils/catchAsync");
-const Delivery = require("../models/deliveryModel");
-const Advert = require("../models/advertModel");
-const ItemPurchase = require("../models/itemPurchasedModel");
+const Expense = require('../../models/expenseModel');
+const catchAsync = require('../../utils/catchAsync');
+const Delivery = require('../../models/deliveryModel');
+const Advert = require('../../models/advertModel');
+const ItemPurchase = require('../../models/itemPurchasedModel');
 
 const createNewExpense = catchAsync(async (req, res) => {
   const { type, description, amount, date } = req.body;
@@ -10,7 +10,7 @@ const createNewExpense = catchAsync(async (req, res) => {
   // Create a new expense document based on the expense type
   let newExpense;
   switch (type) {
-    case "delivery":
+    case 'delivery':
       const deliveryData = {
         deliveryDate: req.body.deliveryDate,
         recipientName: req.body.recipientName,
@@ -22,7 +22,7 @@ const createNewExpense = catchAsync(async (req, res) => {
         ...deliveryData,
       });
       break;
-    case "advert":
+    case 'advert':
       newExpense = await Advert.create({
         type,
         description,
@@ -32,7 +32,7 @@ const createNewExpense = catchAsync(async (req, res) => {
         platform: req.body.platform,
       });
       break;
-    case "itemPurchase":
+    case 'itemPurchase':
       console.log(req.body.type);
       newExpense = await ItemPurchase.create({
         type,
@@ -46,10 +46,10 @@ const createNewExpense = catchAsync(async (req, res) => {
       });
       break;
     default:
-      return res.status(400).json({ error: "Invalid expense type" });
+      return res.status(400).json({ error: 'Invalid expense type' });
   }
   res.status(201).json({
-    status: "success",
+    status: 'success',
     data: {
       expense: newExpense,
     },
@@ -60,24 +60,24 @@ const getdailyExpenseAnalysis = async () => {
     {
       $group: {
         _id: {
-          expenseType: "$__t",
-          date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          expenseType: '$__t',
+          date: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
         },
-        totalAmount: { $sum: "$amount" },
+        totalAmount: { $sum: '$amount' },
         count: { $sum: 1 }, // Count the number of expenses for each type and date
       },
     },
     {
       $project: {
         _id: 0,
-        expenseType: "$_id.expenseType",
-        date: "$_id.date",
+        expenseType: '$_id.expenseType',
+        date: '$_id.date',
         totalAmount: 1,
         count: 1,
       },
     },
   ]);
-console.log(dailyExpenses);
+  console.log(dailyExpenses);
   return dailyExpenses;
 };
 
@@ -91,9 +91,9 @@ const dailyExpenseAnalysis = catchAsync(async (req, res) => {
 const displayDailyExpensePage = catchAsync(async (req, res) => {
   const dailyExpenses = await getdailyExpenseAnalysis();
   console.log(dailyExpenses);
-  res.status(200).render("expense_DailyExpense", {
-    title: "Daily Expense Analysis",
-   
+  res.status(200).render('expense_DailyExpense', {
+    title: 'Daily Expense Analysis',
+
     dailyExpenses,
   });
 });
@@ -152,18 +152,22 @@ const generateExpensePageData = catchAsync(async (req, res) => {
     const acceptHeader = req.get('Accept');
     if (acceptHeader && acceptHeader.includes('text/html')) {
       // If the client accepts HTML, render the "expensesPage" view with expenses data
-      res.render('expensesPage',  { expenses, totalPages, currentPage: page , sortOption,
-        filterOption,});
+      res.render('expensesPage', {
+        expenses,
+        totalPages,
+        currentPage: page,
+        sortOption,
+        filterOption,
+      });
     } else {
       // If the client accepts JSON, send the expenses data as JSON in the response
       res.status(200).json(expenses);
     }
   } catch (error) {
-    console.error("Error fetching and rendering expenses:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error('Error fetching and rendering expenses:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 module.exports = {
   createNewExpense,

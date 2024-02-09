@@ -1,5 +1,6 @@
 const User = require('../../models/userModel');
 const passport = require('passport');
+const jwtUtils = require('../../utils/jwtUtils');
 
 const signUp = async (req, res) => {
   const { username, email, phone, password } = req.body;
@@ -17,15 +18,14 @@ const signUp = async (req, res) => {
         return next(err);
       }
       // console.log('User created');
-       const { _id, username, email } = user;
-       
-      return res
-        .status(201)
-        .json({
-          message: 'User created',
-          user: { _id, username, email },
-          isLoggedIn: true,
-        });
+      const { _id, username, email } = user;
+
+      return res.status(201).json({
+        message: 'User created',
+        user: { _id, username, email },
+        isLoggedIn: true,
+        token: jwtUtils.generateToken(user),
+      });
     });
   } catch (error) {
     console.log('Something went wrong:', error);
@@ -48,11 +48,19 @@ const login = async (req, res, next) => {
         if (err) {
           throw err;
         }
+        
         const { _id, username, email, profilePicture } = user;
-        console.log(req.user)
+         const userWithoutProfilePicture = {
+           _id,
+           username,
+           email,
+           // Exclude profilePicture here
+         };
+        // console.log(req.user);
         res.json({
           user: { _id, username, email, profilePicture },
           isLoggedIn: true,
+          token: jwtUtils.generateToken(userWithoutProfilePicture),
         });
       });
     })(req, res, next);

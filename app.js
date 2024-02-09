@@ -1,49 +1,63 @@
-const express = require("express");
-const cors = require("cors");
-const ejs = require("ejs");
-const path = require("path");
-const salesRouter = require("./routes/salesRoute");
-const customerRouter = require("./routes/customerRoute");
-const productRouter = require("./routes/productRoute");
-const expenseRouter = require("./routes/expenseRoute");
-const returnRouter = require("./routes/returnRoute");
-const authRouter = require("./routes/authUserRoute");
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const helmet = require('helmet');
+const generalRoutes = require('./routes/generalRoutes');
+const authRoute = require('./routes/authUserRoute');
+const clientRoute = require('./routes/clientRoutes');
+const Product = require('./models/productModel.js');
+const ProductStat = require('./models/productStats.js');
+const User = require("./models/userModel.js")
+// const managementRoutes = require('./routes/managementRoutes');
+// const salesRoutes = require('./routes/salesRoutes');
+const {
+  dataUser,
+  dataProduct,
+  dataProductStat,
+  dataTransaction,
+  dataOverallStat,
+  dataAffiliateStat,
+} = require('./devData/data.js');
+
+const config = require('./config/configfile');
+
 const session = require('express-session');
 const passport = require('./config/passportConfig');
-const uploadRouter = require('./routes/uploadProfileRoute');
-
+// const { env } = require('process');
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "public", "html"));
+app.use(helmet());
+
+console.log(app.get('env'));
 app.use(
   session({
-    // Set up express-session middleware
-    secret: process.env.MY_SESSION_SECERT,
+    secret: config.MY_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
 );
+console.log(config.MY_SESSION_SECRET);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1/sales", salesRouter);
-app.use("/api/v1/customers", customerRouter);
-app.use("/api/v1/products", productRouter);
-app.use("/api/v1/expenses", expenseRouter);
-app.use("/api/v1/returns", returnRouter);
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/upload", uploadRouter);
+app.use('/general', generalRoutes);
+app.use('/auth', authRoute);
+app.use('/client', clientRoute);
+// app.use('/management', managementRoutes);
+// app.use('/sales', salesRoutes);
 
+// //
+// Product.insertMany(dataProduct);
+// ProductStat.insertMany(dataProductStat);
+//  User.insertMany(dataUser);
 
-app.get("/", (req, res) => {
-  res.render("Dailypage");
+app.get('/', (req, res) => {
+  res.render('Dailypage');
 });
 module.exports = app;
