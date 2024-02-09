@@ -7,6 +7,7 @@ const authRoute = require('./routes/authUserRoute');
 const clientRoute = require('./routes/clientRoutes');
 const Product = require('./models/productModel.js');
 const ProductStat = require('./models/productStats.js');
+const User = require("./models/userModel.js")
 // const managementRoutes = require('./routes/managementRoutes');
 // const salesRoutes = require('./routes/salesRoutes');
 const {
@@ -54,6 +55,7 @@ app.use('/client', clientRoute);
 // //
 // Product.insertMany(dataProduct);
 // ProductStat.insertMany(dataProductStat);
+//  User.insertMany(dataUser);
 
 app.get('/', (req, res) => {
   res.render('Dailypage');
